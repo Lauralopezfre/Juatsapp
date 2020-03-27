@@ -14,7 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
 /**
  *
@@ -29,10 +30,14 @@ public class Mensaje implements Serializable {
     private Long id;
     private String texto;
     private Usuario usuario;
-    private Date fecha;
+    private DateTime fecha;
     private Chat chat;
 
-    public Mensaje(Long id, String texto, Usuario usuario, Date fecha, Chat chat) {
+    public Mensaje() {
+    }
+
+    
+    public Mensaje(Long id, String texto, Usuario usuario, DateTime fecha, Chat chat) {
         this.id = id;
         this.texto = texto;
         this.usuario = usuario;
@@ -40,12 +45,13 @@ public class Mensaje implements Serializable {
         this.chat = chat;
     }
 
-    public Mensaje(String texto, Chat chat, Usuario usuario, Date fecha) {
+    public Mensaje(String texto, Chat chat, Usuario usuario, DateTime fecha) {
         this.texto = texto;
         this.usuario = usuario;
         this.fecha = fecha;
         this.chat = chat;
     }
+    
     @Column(name = "IdMensaje")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,7 +72,8 @@ public class Mensaje implements Serializable {
         this.texto = texto;
     }
     
-//    @OneToMany(mappedBy = "mensaje")
+    @ManyToOne
+    @JoinColumn(name = "")
     public Usuario getUsuario() {
         return usuario;
     }
@@ -76,11 +83,11 @@ public class Mensaje implements Serializable {
     }
     
     @Column (name = "Fecha")
-    public Date getFecha() {
+    public DateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(DateTime fecha) {
         this.fecha = fecha;
     }
 

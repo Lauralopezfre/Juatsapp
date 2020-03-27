@@ -30,28 +30,28 @@ public class Usuario implements Serializable {
     private Long id;
     private String correo;
     private int edad;
-    private Sexo sexo;   
+    private Sexo sexo;
+    private List<Mensaje> mensajes;
     private List<Rel_UsuariosChats> chats;
     
     public Usuario(){
         this.chats = new ArrayList<>();
+        this.mensajes = new ArrayList<>();
     }
 
-    public Usuario(String correo, int edad, Sexo sexo,List<Rel_UsuariosChats> chats) {
+    public Usuario(String correo, int edad, Sexo sexo) {
         this();
         this.correo = correo;
         this.edad = edad;
         this.sexo = sexo;
-        this.chats = chats;
     }
 
-    public Usuario(Long id, String correo, int edad, Sexo sexo, List<Rel_UsuariosChats> chats) {
+    public Usuario(Long id, String correo, int edad, Sexo sexo) {
         this();
         this.id = id;
         this.correo = correo;
         this.edad = edad;
-        this.sexo = sexo;        
-        this.chats = chats;
+        this.sexo = sexo;   
     }    
 
     @Column (name = "IdUsuario")
@@ -94,11 +94,18 @@ public class Usuario implements Serializable {
         return chats;
     }
     
-    
     public void setChats(List<Rel_UsuariosChats> chats) {
         this.chats = chats;
     }
+    
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    public List<Mensaje> getMensajes() {
+        return mensajes;
+    }
 
+    public void setMensajes(List<Mensaje> mensajes) {
+        this.mensajes = mensajes;
+    }
     
     @Override
     public int hashCode() {

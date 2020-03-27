@@ -30,15 +30,9 @@ public class Chat implements Serializable {
         this.usuarios = new ArrayList<>();
     }
 
-    public Chat(List<Mensaje> mensajes) {
-        this();
-        this.mensajes = mensajes;
-    }
-
-    public Chat(Long id,List<Mensaje> mensajes) {
+    public Chat(Long id) {
         this();
         this.id = id;
-        this.mensajes = mensajes;
     }
     
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
