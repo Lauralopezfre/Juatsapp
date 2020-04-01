@@ -25,7 +25,7 @@ public class Usuario implements Serializable {
     //Atributos de la clase usuario
     private static final long serialVersionUID = 1L;    
     private Long id;
-    private String correo;
+    private String nombre, contrasenia, correo;
     private int edad;
     private Sexo sexo;
     private List<Mensaje> mensajes;
@@ -43,12 +43,16 @@ public class Usuario implements Serializable {
      * Constructor que llama al otro constructor que crea las listas
      * de mensajes y chats, y además inicializa los atributos correo, edad
      * y sexo
+     * @param nombre
+     * @param contrasenia
      * @param correo
      * @param edad
      * @param sexo 
      */
-    public Usuario(String correo, int edad, Sexo sexo) {
+    public Usuario(String nombre, String contrasenia, String correo, int edad, Sexo sexo) {
         this();
+        this.nombre = nombre;
+        this.contrasenia = contrasenia;
         this.correo = correo;
         this.edad = edad;
         this.sexo = sexo;
@@ -59,13 +63,17 @@ public class Usuario implements Serializable {
      * de mensajes y chats, y además inicializa los atributos id, correo, edad
      * y sexo
      * @param id
+     * @param nombre
+     * @param contrasenia
      * @param correo
      * @param edad
      * @param sexo 
      */
-    public Usuario(Long id, String correo, int edad, Sexo sexo) {
+    public Usuario(Long id, String nombre, String contrasenia, String correo, int edad, Sexo sexo) {
         this();
         this.id = id;
+        this.nombre = nombre;
+        this.contrasenia = contrasenia;
         this.correo = correo;
         this.edad = edad;
         this.sexo = sexo;   
@@ -89,6 +97,40 @@ public class Usuario implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    /**
+     * Método que retorna nombre de usuario
+     * @return 
+     */
+    @Column (name = "Nombre")
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * Método que modifica nombre de usuario
+     * @param nombre 
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+   
+    /**
+     * Método que retorna contrasenia de usuario
+     * @return 
+     */
+    @Column (name =  "Constrasenia")
+    public String getContrasenia() {
+        return contrasenia;
+    }
+
+    /**
+     * Método que modifica contrasenia de usuario
+     * @param contrasenia 
+     */
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }       
     
     /**
      * Método que retorna correo de usuario

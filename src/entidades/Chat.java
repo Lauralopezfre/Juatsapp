@@ -23,8 +23,9 @@ import javax.persistence.Table;
 public class Chat implements Serializable {
 
     //Atributos de la clase Chat
-    private static final long serialVersionUID = 1L;    
+    private static final long serialVersionUID = 1L;        
     private Long id;
+    private String titulo;
     private List<Rel_UsuariosChats> usuarios;
     private List<Mensaje> mensajes;
 
@@ -38,12 +39,24 @@ public class Chat implements Serializable {
 
     /**
      * Constuctor que llama al otro constructor que crea las listas
-     * de usuarios y mensajes, y ademas inicializa el atributo de id
-     * @param id 
+     * de usuarios y mensajes, y ademas inicializa el atributo de titulo
+     * @param titulo 
      */
-    public Chat(Long id) {
+    public Chat(String titulo){
+        this();
+        this.titulo = titulo;
+    }
+    
+    /**
+     * Constuctor que llama al otro constructor que crea las listas
+     * de usuarios y mensajes, y ademas inicializa el atributo de id y titulo
+     * @param id 
+     * @param titulo
+     */
+    public Chat(Long id, String titulo) {
         this();
         this.id = id;
+        this.titulo = titulo;
     }
     
     /**
@@ -64,6 +77,23 @@ public class Chat implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    /**
+     * Método que retorna titulo de chat
+     * @return 
+     */
+    @Column (name = "Titulo")
+    public String getTitulo() {
+        return titulo;
+    }
+
+    /**
+     * Método que modifica titulo de chat
+     * @param titulo 
+     */
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    } 
     
     /**
      * Método que devuelve un ArrayList de los usuarios de un chat
