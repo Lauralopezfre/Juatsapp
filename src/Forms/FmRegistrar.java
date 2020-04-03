@@ -1,21 +1,34 @@
 package Forms;
 
+import Enum.Sexo;
+import entidades.Usuario;
+import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import repositories.UsuarioRepository;
 
 /**
  *
  * @author Estefanía Aguilar
  */
 public class FmRegistrar extends javax.swing.JFrame {
-
+    UsuarioRepository usuarioRepository;
     /**
      * Creates new form FmRegistrar
      */
-    public FmRegistrar() {
+    public FmRegistrar(Frame padre) {
         initComponents();
         this.setTitle("Juatsapp");
         this.setLocationRelativeTo(null);
+        usuarioRepository = new UsuarioRepository();
+        //Cargar en el bombo box los sexos disponibles.
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        modelo.addElement(Sexo.FEMENINO);
+        modelo.addElement(Sexo.MASCULINO);
+        modelo.addElement(Sexo.ROBOT);
+        cbSexo.setModel(modelo);
     }
 
     /**
@@ -51,7 +64,6 @@ public class FmRegistrar extends javax.swing.JFrame {
         getContentPane().add(lblIcono, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, -1, -1));
 
         lblRegistro.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        lblRegistro.setForeground(new java.awt.Color(0, 0, 0));
         lblRegistro.setText("Registro");
         getContentPane().add(lblRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 50, -1, -1));
 
@@ -60,37 +72,26 @@ public class FmRegistrar extends javax.swing.JFrame {
         lblJuatsapp.setText("Juatsapp");
         getContentPane().add(lblJuatsapp, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 160, 50));
 
-        lblNombre.setForeground(new java.awt.Color(0, 0, 0));
         lblNombre.setText("Nombre:");
         getContentPane().add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 150, -1, 20));
 
-        lblEdad.setForeground(new java.awt.Color(0, 0, 0));
         lblEdad.setText("Edad:");
         getContentPane().add(lblEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, -1, -1));
 
-        lblSexo.setForeground(new java.awt.Color(0, 0, 0));
         lblSexo.setText("Sexo:");
         getContentPane().add(lblSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, -1, -1));
 
-        lblCorreo.setForeground(new java.awt.Color(0, 0, 0));
         lblCorreo.setText("Correo:");
         getContentPane().add(lblCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, -1, -1));
 
-        lblContrasenia.setForeground(new java.awt.Color(0, 0, 0));
         lblContrasenia.setText("Contraseña:");
         getContentPane().add(lblContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 320, -1, -1));
-
-        txtNombre.setForeground(new java.awt.Color(0, 0, 0));
         getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 200, 30));
 
-        txtEdad.setForeground(new java.awt.Color(0, 0, 0));
         txtEdad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, 80, 30));
-
-        txtCorreo.setForeground(new java.awt.Color(0, 0, 0));
         getContentPane().add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 270, 200, 30));
 
-        txtContrasenia.setForeground(new java.awt.Color(0, 0, 0));
         txtContrasenia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtContraseniaActionPerformed(evt);
@@ -101,8 +102,12 @@ public class FmRegistrar extends javax.swing.JFrame {
         getContentPane().add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 200, 30));
 
         btnRegistrar.setBackground(new java.awt.Color(51, 153, 255));
-        btnRegistrar.setForeground(new java.awt.Color(0, 0, 0));
         btnRegistrar.setText("Registrarse");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 400, 120, -1));
 
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/blancosolido.jpg"))); // NOI18N
@@ -115,41 +120,58 @@ public class FmRegistrar extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtContraseniaActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FmRegistrar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FmRegistrar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FmRegistrar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FmRegistrar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        if(validadCampos()){
+            guardarBD();
+            mostrarMensaje();
+            setVisible(false);
+        }else{
+           mostrarMensajeError();
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FmRegistrar().setVisible(true);
-            }
-        });
+    }//GEN-LAST:event_btnRegistrarActionPerformed
+    /**
+     * Metodo que se encarga de validar que todos los campos esten llenos al 
+     * momento de almacenar.
+     * @return Indica si todos los campos estan llenos o no.
+     */
+    private boolean validadCampos(){
+        if(!txtNombre.getText().isEmpty() &&
+                !txtEdad.getText().isEmpty() &&
+                !txtCorreo.getText().isEmpty() &&
+                !txtContrasenia.getText().isEmpty()){
+            return true;
+            
+        }
+            return false;
+        
     }
-
+    
+    /**
+     * Metodo que se encarga de guardar un usuario en la base de datos.
+     */
+    private void guardarBD(){
+       Usuario usuario = new Usuario(txtNombre.getText(), txtContrasenia.getText()
+               , txtCorreo.getText(), Integer.parseInt(txtEdad.getText()), (Sexo)cbSexo.getSelectedItem());
+       
+       usuarioRepository.guardar(usuario);
+    }
+    
+    /**
+     * Método que se encarga de mostrar un mensaje indicando que faltan campos
+     * por llenar.
+     */
+    private void mostrarMensajeError(){
+        JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Alerta", JOptionPane.WARNING_MESSAGE);
+    }
+    
+    /**
+     * Método que se encarga de mostrar un mensaje indicando que se ha registrado el
+     * usuario con exito.
+     */
+    private void mostrarMensaje(){
+       JOptionPane.showMessageDialog(this, "Se ha registrado al usuario con exito", "Exito", JOptionPane.WARNING_MESSAGE);
+    }
+    
     @Override
     public Image getIconImage(){
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagenes/whatsapp.png"));

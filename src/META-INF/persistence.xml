@@ -7,7 +7,7 @@
     <class>entidades.Mensaje</class>
     <class>entidades.Rel_UsuariosChats</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://LocalHost:3306/Juatsapp? useUnicode = true &amp; useJDBCCompliantTimezoneShift = true &amp; useLegacyDatetimeCode = false &amp; serverTimezone = UTC"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://LocalHost:3306/juatsapp? useUnicode = true &amp; useJDBCCompliantTimezoneShift = true &amp; useLegacyDatetimeCode = false &amp; serverTimezone = UTC"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.password" value="12345678"/>

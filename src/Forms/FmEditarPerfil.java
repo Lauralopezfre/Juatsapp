@@ -5,22 +5,32 @@
  */
 package Forms;
 
+import Enum.Sexo;
+import entidades.Usuario;
+import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import repositories.UsuarioRepository;
 
 /**
  *
  * @author Estefanía Aguilar
  */
 public class FmEditarPerfil extends javax.swing.JFrame {
+    UsuarioRepository usuarioRepository;
+    Usuario usuario;
 
     /**
      * Creates new form FmEditarDatos
      */
-    public FmEditarPerfil() {
+    public FmEditarPerfil(Frame padre) {
         initComponents();
         this.setTitle("Juatsapp");
         this.setLocationRelativeTo(null);
+        usuarioRepository = new UsuarioRepository();
+        txtID.setEnabled(false);
     }
 
     /**
@@ -44,6 +54,7 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         lblAzul = new javax.swing.JLabel();
         lblFondo = new javax.swing.JLabel();
+        txtID = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -53,83 +64,140 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         getContentPane().add(lblIcono, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 80, -1, -1));
 
         txtNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 160, 140, 30));
+        getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 220, 140, 30));
 
         txtEdad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(txtEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 200, 60, 30));
+        getContentPane().add(txtEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 260, 60, 30));
 
-        getContentPane().add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 240, 140, 30));
-        getContentPane().add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 290, 140, 30));
+        getContentPane().add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 300, 140, 30));
+        getContentPane().add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 350, 140, 30));
 
         btnContrasenia.setText("Contraseña");
-        getContentPane().add(btnContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 340, 140, 30));
+        getContentPane().add(btnContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 400, 140, 30));
 
         btnAceptar.setBackground(new java.awt.Color(204, 204, 204));
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/si.png"))); // NOI18N
-        getContentPane().add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 400, -1, -1));
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 460, -1, -1));
 
-        lblPerfil.setFont(new java.awt.Font("Dialog", 1, 22)); // NOI18N
-        lblPerfil.setForeground(new java.awt.Color(0, 0, 0));
+        lblPerfil.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblPerfil.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPerfil.setText("Perfil");
-        getContentPane().add(lblPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, 140, 30));
+        getContentPane().add(lblPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, 130, 30));
 
-        lblEditar.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        lblEditar.setForeground(new java.awt.Color(0, 0, 0));
+        lblEditar.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         lblEditar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblEditar.setText("Editar");
-        getContentPane().add(lblEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 100, 20));
+        getContentPane().add(lblEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 130, 40));
 
         btnCancelar.setBackground(new java.awt.Color(204, 204, 204));
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/prohibido.png"))); // NOI18N
-        getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 400, -1, -1));
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 460, -1, -1));
 
         lblAzul.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/azul638.jpg"))); // NOI18N
         getContentPane().add(lblAzul, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 70));
 
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/blancosolido.jpg"))); // NOI18N
-        getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 470));
+        getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 530));
+
+        txtID.setText("jTextField1");
+        getContentPane().add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 170, 140, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FmEditarPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FmEditarPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FmEditarPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FmEditarPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        /*
+        Si todos los campos estan llenos, se procede a crear una nuevo usuario con los nuevos valores
+        y a actualizar en la base de datos estos nuevos valores.
+        */
+        if(validarCampos()){
+            Usuario usuarioActualizado = new Usuario(Long.valueOf(txtID.getText()), txtNombre.getText(), 
+                    this.usuario.getContrasenia(), txtCorreo.getText(), Integer.parseInt(txtEdad.getText()), 
+                    (Sexo)cbSexo.getSelectedItem());
+            actualizarDatosBD(usuarioActualizado);
+            mostrarDatos(usuarioActualizado);
+            
         }
-        //</editor-fold>
-        //</editor-fold>
+    }//GEN-LAST:event_btnAceptarActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FmEditarPerfil().setVisible(true);
-            }
-        });
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        FmPantallaInicio fmPantallaInicio = new FmPantallaInicio(this);
+        fmPantallaInicio.show();
+        fmPantallaInicio.mostrarDatos(usuario);
+        setVisible(false);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    
+    /**
+     * Método que se encarga de actualizar en la base de datos los nuevos valores
+     * de los atributos del usuario.
+     */
+    private void actualizarDatosBD(Usuario usuarioNuevo){
+        usuarioRepository.actualizar(usuarioNuevo);
+        
+        //Se mostrara un mensaje en el caso de que se haya realizado el registro con exito.
+        JOptionPane.showMessageDialog(this, "Se ha actualizado el usuario "
+                + "correctamente en la base de datos.", "Alerta", JOptionPane.WARNING_MESSAGE); 
     }
-
-     @Override
+    
+    /**
+     * Método que se encarga de verificar que todos los campos esten llenos, 
+     * que ninguno este vacio.
+     * @return Indica si todos los campos estan llenos.
+     */
+    private boolean validarCampos(){
+        if(!txtNombre.getText().isEmpty() &&
+                !txtCorreo.getText().isEmpty()&&
+                !txtEdad.getText().isEmpty()){
+            return true;
+        }else{
+            mostrarMensaje();
+            return false;
+        }
+    }
+    
+    /**
+     * Método que se encarga de mostrar un mensaje indicando que hay campos vacios y
+     * deben ser llenados.
+     */
+    private void mostrarMensaje(){
+        JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Alerta", JOptionPane.WARNING_MESSAGE); 
+    
+    }
+    
+    /**
+     * Metodo que se encarga de mostrar la información del usuario en la venta 
+     * para tener la posibilidad de editarlo.
+     * @param usuario Usuario a editar
+     */
+    public void mostrarDatos(Usuario usuario){
+        //Mostrar la información del usuario en los campos de textos.
+        txtID.setText(String.valueOf(usuario.getId()));
+        txtNombre.setText(usuario.getNombre());
+        txtCorreo.setText(usuario.getCorreo());
+        txtEdad.setText(String.valueOf(usuario.getEdad()));
+        
+        //Cargar en el bombo box los sexos disponibles.
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        modelo.addElement(Sexo.FEMENINO);
+        modelo.addElement(Sexo.MASCULINO);
+        modelo.addElement(Sexo.ROBOT);
+        cbSexo.setModel(modelo);
+        
+        this.usuario = usuario;
+    }
+    
+    @Override
     public Image getIconImage(){
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagenes/whatsapp.png"));
         return retValue;
@@ -147,6 +215,7 @@ public class FmEditarPerfil extends javax.swing.JFrame {
     private javax.swing.JLabel lblPerfil;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtEdad;
+    private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,14 +1,19 @@
 package Forms;
 
+import entidades.Usuario;
+import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import repositories.UsuarioRepository;
 
 /**
  *
  * @author Estefanía Aguilar
  */
 public class FmInicioSesion extends javax.swing.JFrame {
-
+    UsuarioRepository usuarioRepository;
     /**
      * Creates new form InicioSesion
      */
@@ -16,6 +21,8 @@ public class FmInicioSesion extends javax.swing.JFrame {
         initComponents();
         this.setTitle("Juatsapp");
         this.setLocationRelativeTo(null);
+        
+        usuarioRepository = new UsuarioRepository();
     }
 
     /**
@@ -29,9 +36,9 @@ public class FmInicioSesion extends javax.swing.JFrame {
 
         lblIcono = new javax.swing.JLabel();
         lblCorreo = new javax.swing.JLabel();
+        txtContrasenia = new javax.swing.JPasswordField();
         lblContrasenia = new javax.swing.JLabel();
         txtCorreo = new javax.swing.JTextField();
-        txtContrasenia = new javax.swing.JTextField();
         btnIngresar = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
         lblRegistrar = new javax.swing.JLabel();
@@ -45,27 +52,32 @@ public class FmInicioSesion extends javax.swing.JFrame {
         lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/whatsappG.png"))); // NOI18N
         getContentPane().add(lblIcono, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 20, 130, 130));
 
-        lblCorreo.setForeground(new java.awt.Color(0, 0, 0));
         lblCorreo.setText("Correo:");
         getContentPane().add(lblCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, -1, -1));
+        getContentPane().add(txtContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 232, 210, 30));
 
-        lblContrasenia.setForeground(new java.awt.Color(0, 0, 0));
         lblContrasenia.setText("Contraseña:");
         getContentPane().add(lblContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, -1, -1));
         getContentPane().add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 180, 210, 30));
-        getContentPane().add(txtContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, 210, 30));
 
         btnIngresar.setBackground(new java.awt.Color(51, 153, 255));
-        btnIngresar.setForeground(new java.awt.Color(0, 0, 0));
         btnIngresar.setText("Ingresar");
+        btnIngresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresarActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 290, 120, -1));
 
         btnRegistrar.setBackground(new java.awt.Color(255, 255, 255));
-        btnRegistrar.setForeground(new java.awt.Color(0, 0, 0));
         btnRegistrar.setText("Registrarse");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 400, 120, -1));
 
-        lblRegistrar.setForeground(new java.awt.Color(0, 0, 0));
         lblRegistrar.setText("¿Aún no tienes una cuenta?");
         getContentPane().add(lblRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 360, 160, 20));
 
@@ -73,10 +85,19 @@ public class FmInicioSesion extends javax.swing.JFrame {
         getContentPane().add(lblAzul, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 400, 120));
 
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/blancosolido.jpg"))); // NOI18N
-        getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 390, 470));
+        getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 470));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        FmRegistrar fmRegistrar = new FmRegistrar(this);
+        fmRegistrar.show();
+    }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+        verificarDatosBD();
+    }//GEN-LAST:event_btnIngresarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -120,6 +141,73 @@ public class FmInicioSesion extends javax.swing.JFrame {
         return retValue;
     }
     
+    /**
+     * Método de que encarga de verificar que el usuario que inicio sesion con su correo
+     * y contraseña exista en la base de datos.
+     */
+    private void verificarDatosBD() {
+    
+        //Verificar que los dos campos de correos y contraseñas no esten vacios.
+        if (!txtContrasenia.getText().isEmpty() && !txtCorreo.getText().isEmpty()) {
+
+            if (obtenerUsuarioBD() != null) {
+                //Llamar a la pantalla de inicio.
+                FmPantallaInicio fmPantallaInicio = new FmPantallaInicio(this);
+                fmPantallaInicio.show();
+
+                //Se muesta la información del usuario en el frame 
+                fmPantallaInicio.mostrarDatos(obtenerUsuarioBD());
+                setVisible(false);
+                return;
+
+            } else {
+                /*
+                Si se ha llegado hasta este paso, quiere decir que el usuario no se
+                encuentra registrado en el sistema.
+                 */
+                mostrarMensaje();
+            }
+        } else {
+            //Los campos de correo y contraseña no deben de estar vacios
+            JOptionPane.showMessageDialog(this, "Llenar campos obligatorios", "Alerta", JOptionPane.WARNING_MESSAGE);
+        }
+
+    }
+    
+    /**
+     * Método que se encarga de mostrar un mensaje indicando de que el usuario no ha
+     * sido registrado en la base de datos.
+     */
+    private void mostrarMensaje(){
+       JOptionPane.showMessageDialog(this, "El usuario no se encuentra "
+                        + "registrado en el sistema.", "Alerta", JOptionPane.WARNING_MESSAGE); 
+    }
+    
+    /**
+     * Método que se encarga de obtener el usuario de la base de datos que coincide con
+     * la contraseña y el correo indicado.
+     * @return Usuario que coincida con contraseña y usuario
+     */
+    private Usuario obtenerUsuarioBD() {
+        
+        //Obtener todos los usuarios de la base de datos.
+        ArrayList<Usuario> usuarios = usuarioRepository.buscarTodas();
+        
+        for (Usuario usuario : usuarios) {
+            
+            //Recorrer todos los usuarios y verificar en ellos que coinicida el nombre y la contraseña.
+            if (usuario.getCorreo().equalsIgnoreCase(txtCorreo.getText()) && 
+                    usuario.getContrasenia().equals(txtContrasenia.getText())) {
+             return usuario;   
+            }
+        }
+        /*
+        Si se ha llegado hasta este paso, quiere decir que el usuario no se
+        encuentra registrado en el sistema.
+         */
+        return null;  
+    }
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIngresar;
@@ -130,7 +218,7 @@ public class FmInicioSesion extends javax.swing.JFrame {
     private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblIcono;
     private javax.swing.JLabel lblRegistrar;
-    private javax.swing.JTextField txtContrasenia;
+    private javax.swing.JPasswordField txtContrasenia;
     private javax.swing.JTextField txtCorreo;
     // End of variables declaration//GEN-END:variables
 }

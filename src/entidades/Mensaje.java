@@ -1,6 +1,7 @@
 package entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
 /**
@@ -26,7 +29,7 @@ public class Mensaje implements Serializable {
     private String texto;
     private Usuario usuario;
     private Chat chat;
-    private DateTime fecha;
+    private Date fecha;
 
     /**
      * Constructor default de la clase mensaje
@@ -41,7 +44,7 @@ public class Mensaje implements Serializable {
      * @param chat
      * @param fecha 
      */
-    public Mensaje(String texto, Usuario usuario, Chat chat, DateTime fecha) {
+    public Mensaje(String texto, Usuario usuario, Chat chat, Date fecha) {
         this.texto = texto;
         this.usuario = usuario;
         this.chat = chat;
@@ -57,7 +60,7 @@ public class Mensaje implements Serializable {
      * @param chat
      * @param fecha 
      */
-    public Mensaje(Long id, String texto, Usuario usuario, Chat chat, DateTime fecha) {
+    public Mensaje(Long id, String texto, Usuario usuario, Chat chat, Date fecha) {
         this.id = id;
         this.texto = texto;
         this.usuario = usuario;
@@ -142,7 +145,8 @@ public class Mensaje implements Serializable {
      * @return 
      */
     @Column(name = "Fecha")
-    public DateTime getFecha() {
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getFecha() {
         return fecha;
     }
 
@@ -150,7 +154,7 @@ public class Mensaje implements Serializable {
      * Método que modifica fecha de mensaje
      * @param fecha 
      */
-    public void setFecha(DateTime fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
