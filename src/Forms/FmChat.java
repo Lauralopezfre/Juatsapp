@@ -21,6 +21,7 @@ import repositories.UsuarioRepository;
  * @author Estefanía Aguilar
  */
 public class FmChat extends javax.swing.JFrame {
+
     public static final String newline = "\n";
     UsuarioRepository usuarioRepository;
     MensajeRepository mensajeRepository;
@@ -28,7 +29,7 @@ public class FmChat extends javax.swing.JFrame {
     Usuario usuario;
     Mensaje mensaje;
     Chat chat;
-    
+
     /**
      * Creates new form FmChat
      */
@@ -41,8 +42,8 @@ public class FmChat extends javax.swing.JFrame {
         chatRepository = new ChatRepository();
         this.usuario = usuario;
         mensaje = new Mensaje();
-        this.chat = chat;                       
-        txtChat.setEditable(false);   
+        this.chat = chat;
+        txtChat.setEditable(false);
         txtTituloChat.setText(chat.getTitulo());
         txtTituloChat.setEnabled(false);
     }
@@ -122,40 +123,48 @@ public class FmChat extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
-        mensaje.setTexto(txtMensaje.getText());               
-        
-        txtChat.append(mensaje.getTexto() + newline);
-        txtMensaje.selectAll();        
-        
-        txtChat.setCaretPosition(txtChat.getDocument().getLength());
-        
-        ArrayList<Mensaje> mensajes = new ArrayList<>();
-        
-        for (Mensaje mensaje : mensajes) {
-            mensajes.add(mensaje);           
-        }
-        usuario.setMensajes(mensajes);
-//        chat.setMensajes(mensajes);
-//        
-        mensajeRepository.guardar(mensaje);
-////        usuarioRepository.actualizar(usuario);
-////        chatRepository.actualizar(chat);
+        if (validarMensaje()) {
+            
+            mensaje.setTexto(txtMensaje.getText());
+            mensaje.setUsuario(this.usuario);
+            mensaje.setChat(this.chat);
+            
+            txtChat.append(mensaje.getUsuario().getNombre() + ": " + mensaje.getTexto() + newline);
+            txtMensaje.selectAll();
+            txtChat.setCaretPosition(txtChat.getDocument().getLength());
 
-        txtMensaje.setText("");
+            mensajeRepository.guardar(mensaje);
+
+            txtMensaje.setText("");
+        }
     }//GEN-LAST:event_btnEnviarActionPerformed
-    
-        /**
-     * Método que se encarga de mostrar los datos del chat en la ventana de chat.
+
+    /**
+     * Método que se encarga de mostrar los datos del chat en la ventana de
+     * chat.
+     *
      * @param chat Chat que se desea mostrar
      */
-    public void mostrarDatos(Chat chat){
+    public void mostrarDatos(Chat chat) {
         //this.chat = chat;
         //Se muestra solamente el titulo del chat en el chat.
         //txtTituloChat.setText(chat.getTitulo());
-    }       
-    
-      @Override
-    public Image getIconImage(){
+    }
+
+    //Valida que no se mande un mensaje vacio
+    public boolean validarMensaje() {
+        if (!txtMensaje.getText().isEmpty()){
+            for(int i =0; i<txtMensaje.getText().length(); i++){
+                 if(txtMensaje.getText().charAt(i) != ' '){
+                     return true;
+                 }
+            }            
+        }
+        return false;        
+    }
+
+    @Override
+    public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagenes/whatsapp.png"));
         return retValue;
     }

@@ -58,6 +58,8 @@ public class FmPantallaInicio extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
+        setMaximumSize(new java.awt.Dimension(480, 470));
+        setSize(new java.awt.Dimension(0, 0));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tbChats.setModel(new javax.swing.table.DefaultTableModel(
@@ -78,7 +80,7 @@ public class FmPantallaInicio extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbChats);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, 310, 380));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 310, 380));
 
         btnCrearChat.setBackground(new java.awt.Color(255, 255, 255));
         btnCrearChat.setText("Crear chat");
@@ -148,10 +150,10 @@ public class FmPantallaInicio extends javax.swing.JFrame {
         getContentPane().add(lblAzul, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -10, 140, 480));
 
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/blancosolido.jpg"))); // NOI18N
-        getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 460, 70));
+        getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 480, 70));
 
         lblGris.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/gris500.jpg"))); // NOI18N
-        getContentPane().add(lblGris, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 530, 470));
+        getContentPane().add(lblGris, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 480, 470));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -187,7 +189,6 @@ public class FmPantallaInicio extends javax.swing.JFrame {
         }else{
             mostrarMensaje();
         }
-
     }//GEN-LAST:event_btnCrearChatActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -249,8 +250,8 @@ public class FmPantallaInicio extends javax.swing.JFrame {
                 columna[0] = chat.getChat().getTitulo();
 
                 //Obtener el ultimo mensaje para mostrarlo en los chats
-                columna[1] = chat.getChat().getMensajes().get(chat.getChat().getMensajes().size() - 1).getTexto();
-
+                //columna[1] = chat.getChat().getMensajes().get(chat.getChat().getMensajes().size() - 1).getTexto();
+                
                 //Agregar el chat a la tabla.
                 modelo.addRow(columna);
                 contador++;

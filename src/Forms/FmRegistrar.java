@@ -5,6 +5,8 @@ import entidades.Usuario;
 import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import repositories.UsuarioRepository;
@@ -14,7 +16,9 @@ import repositories.UsuarioRepository;
  * @author Estefanía Aguilar
  */
 public class FmRegistrar extends javax.swing.JFrame {
+
     UsuarioRepository usuarioRepository;
+
     /**
      * Creates new form FmRegistrar
      */
@@ -86,10 +90,27 @@ public class FmRegistrar extends javax.swing.JFrame {
 
         lblContrasenia.setText("Contraseña:");
         getContentPane().add(lblContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 320, -1, -1));
+
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
         getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 200, 30));
 
         txtEdad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtEdad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtEdadKeyTyped(evt);
+            }
+        });
         getContentPane().add(txtEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, 80, 30));
+
+        txtCorreo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCorreoKeyTyped(evt);
+            }
+        });
         getContentPane().add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 270, 200, 30));
 
         txtContrasenia.addActionListener(new java.awt.event.ActionListener() {
@@ -121,65 +142,97 @@ public class FmRegistrar extends javax.swing.JFrame {
     }//GEN-LAST:event_txtContraseniaActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        if(validadCampos()){
+        if (validarCampos() && validarCorreo()) {
             guardarBD();
             mostrarMensaje();
-            FmInicioSesion fmIniciaoSesion = new FmInicioSesion();
-            fmIniciaoSesion.show();
+            FmInicioSesion fmIniciarSesion = new FmInicioSesion();
+            fmIniciarSesion.show();
             setVisible(false);
-        }else{
-           mostrarMensajeError();
+//        }else{
+//           mostrarMensajeError();
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void txtCorreoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCorreoKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCorreoKeyTyped
+
+    private void txtEdadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEdadKeyTyped
+        if (!String.valueOf(evt.getKeyChar()).matches("^[0-9]$")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtEdadKeyTyped
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        if (!String.valueOf(evt.getKeyChar()).matches("^[a-zA-Z ñáéíóú]$")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNombreKeyTyped
     /**
-     * Metodo que se encarga de validar que todos los campos esten llenos al 
+     * Metodo que se encarga de validar que todos los campos esten llenos al
      * momento de almacenar.
+     *
      * @return Indica si todos los campos estan llenos o no.
      */
-    private boolean validadCampos(){
-        if(!txtNombre.getText().isEmpty() &&
-                !txtEdad.getText().isEmpty() &&
-                !txtCorreo.getText().isEmpty() &&
-                !txtContrasenia.getText().isEmpty()){
+    private boolean validarCampos() {
+        if (!txtNombre.getText().isEmpty()
+                && !txtEdad.getText().isEmpty()
+                && !txtCorreo.getText().isEmpty()
+                && !txtContrasenia.getText().isEmpty()) {
             return true;
-            
         }
-            return false;
-        
+        mostrarMensajeError();
+        return false;
     }
-    
+
+    public boolean validarCorreo() {
+        // Patrón para validar el correo
+        Pattern pattern = Pattern
+                .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+
+        Matcher mather = pattern.matcher(txtCorreo.getText());
+        if (mather.find() == true) {            
+            return true;
+        } else {            
+            JOptionPane.showMessageDialog(this, "El correo ingresado es inválido.",
+                    "Alerta", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+    }
+
     /**
      * Metodo que se encarga de guardar un usuario en la base de datos.
      */
-    private void guardarBD(){
-       Usuario usuario = new Usuario(txtNombre.getText(), txtContrasenia.getText()
-               , txtCorreo.getText(), Integer.parseInt(txtEdad.getText()), (Sexo)cbSexo.getSelectedItem());
-       
-       usuarioRepository.guardar(usuario);
+    private void guardarBD() {
+        Usuario usuario = new Usuario(txtNombre.getText(), txtContrasenia.getText(),
+                 txtCorreo.getText(), Integer.parseInt(txtEdad.getText()), (Sexo) cbSexo.getSelectedItem());
+
+        usuarioRepository.guardar(usuario);
     }
-    
+
     /**
      * Método que se encarga de mostrar un mensaje indicando que faltan campos
      * por llenar.
      */
-    private void mostrarMensajeError(){
+    private void mostrarMensajeError() {
         JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Alerta", JOptionPane.WARNING_MESSAGE);
     }
-    
+
     /**
-     * Método que se encarga de mostrar un mensaje indicando que se ha registrado el
-     * usuario con exito.
+     * Método que se encarga de mostrar un mensaje indicando que se ha
+     * registrado el usuario con exito.
      */
-    private void mostrarMensaje(){
-       JOptionPane.showMessageDialog(this, "Se ha registrado al usuario con exito", "Exito", JOptionPane.WARNING_MESSAGE);
+    private void mostrarMensaje() {
+        JOptionPane.showMessageDialog(this, "Registro exitoso.", "Exito", JOptionPane.WARNING_MESSAGE);
     }
-    
+
     @Override
-    public Image getIconImage(){
+    public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagenes/whatsapp.png"));
         return retValue;
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JComboBox<String> cbSexo;

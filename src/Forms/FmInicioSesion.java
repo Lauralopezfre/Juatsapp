@@ -135,12 +135,6 @@ public class FmInicioSesion extends javax.swing.JFrame {
             }
         });
     }
-
-    @Override
-    public Image getIconImage(){
-        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagenes/whatsapp.png"));
-        return retValue;
-    }
     
     /**
      * Método de que encarga de verificar que el usuario que inicio sesion con su correo
@@ -169,7 +163,6 @@ public class FmInicioSesion extends javax.swing.JFrame {
             //Los campos de correo y contraseña no deben de estar vacios
             JOptionPane.showMessageDialog(this, "Llenar campos obligatorios", "Alerta", JOptionPane.WARNING_MESSAGE);
         }
-
     }
     
     /**
@@ -178,7 +171,7 @@ public class FmInicioSesion extends javax.swing.JFrame {
      */
     private void mostrarMensaje(){
        JOptionPane.showMessageDialog(this, "El usuario no se encuentra "
-                        + "registrado en el sistema.", "Alerta", JOptionPane.WARNING_MESSAGE); 
+                        + "registrado o la contraseña es incorrecta.", "Alerta", JOptionPane.WARNING_MESSAGE); 
     }
     
     /**
@@ -195,17 +188,22 @@ public class FmInicioSesion extends javax.swing.JFrame {
             
             //Recorrer todos los usuarios y verificar en ellos que coinicida el nombre y la contraseña.
             if (usuario.getCorreo().equalsIgnoreCase(txtCorreo.getText()) && 
-                    usuario.getContrasenia().equals(txtContrasenia.getText())) {
-             return usuario;   
-            }
+                   usuario.getContrasenia().equals(txtContrasenia.getText())) {
+                        return usuario;                                                                               
+            }            
         }
         /*
         Si se ha llegado hasta este paso, quiere decir que el usuario no se
         encuentra registrado en el sistema.
-         */
+         */        
         return null;  
     }
-
+    
+    @Override
+    public Image getIconImage(){
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagenes/whatsapp.png"));
+        return retValue;
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIngresar;

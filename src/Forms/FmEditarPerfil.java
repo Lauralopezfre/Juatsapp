@@ -10,6 +10,8 @@ import entidades.Usuario;
 import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import repositories.UsuarioRepository;
@@ -60,19 +62,34 @@ public class FmEditarPerfil extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
+        setMaximumSize(new java.awt.Dimension(400, 520));
+        setMinimumSize(new java.awt.Dimension(400, 520));
+        setPreferredSize(new java.awt.Dimension(400, 520));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/usuario.png"))); // NOI18N
         getContentPane().add(lblIcono, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 80, -1, -1));
 
         txtNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 220, 140, 30));
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
+        getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 170, 140, 30));
 
         txtEdad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(txtEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 260, 60, 30));
+        txtEdad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtEdadKeyTyped(evt);
+            }
+        });
+        getContentPane().add(txtEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 210, 60, 30));
 
-        getContentPane().add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 300, 140, 30));
-        getContentPane().add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 350, 140, 30));
+        getContentPane().add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, 140, 30));
+
+        txtCorreo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        getContentPane().add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 300, 140, 30));
 
         btnContrasenia.setText("Contraseña");
         btnContrasenia.addActionListener(new java.awt.event.ActionListener() {
@@ -80,7 +97,7 @@ public class FmEditarPerfil extends javax.swing.JFrame {
                 btnContraseniaActionPerformed(evt);
             }
         });
-        getContentPane().add(btnContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 400, 140, 30));
+        getContentPane().add(btnContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 350, 140, 30));
 
         btnAceptar.setBackground(new java.awt.Color(204, 204, 204));
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/si.png"))); // NOI18N
@@ -89,7 +106,7 @@ public class FmEditarPerfil extends javax.swing.JFrame {
                 btnAceptarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 460, -1, -1));
+        getContentPane().add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 410, -1, -1));
 
         lblPerfil.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblPerfil.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -108,7 +125,7 @@ public class FmEditarPerfil extends javax.swing.JFrame {
                 btnCancelarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 460, -1, -1));
+        getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 410, -1, -1));
 
         lblAzul.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/azul638.jpg"))); // NOI18N
         getContentPane().add(lblAzul, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 70));
@@ -127,7 +144,7 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         Si todos los campos estan llenos, se procede a crear una nuevo usuario con los nuevos valores
         y a actualizar en la base de datos estos nuevos valores.
         */
-        if(validarCampos()){
+        if(validarCampos() && validarCorreo()){
             Usuario usuarioActualizado = new Usuario(Long.valueOf(txtID.getText()), txtNombre.getText(), 
                     this.usuario.getContrasenia(), txtCorreo.getText(), Integer.parseInt(txtEdad.getText()), 
                     (Sexo)cbSexo.getSelectedItem());
@@ -148,6 +165,18 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_btnContraseniaActionPerformed
 
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        if (!String.valueOf(evt.getKeyChar()).matches("^[a-zA-Z ñáéíóú]$")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void txtEdadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEdadKeyTyped
+        if (!String.valueOf(evt.getKeyChar()).matches("^[0-9]$")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtEdadKeyTyped
+
     
     /**
      * Método que se encarga de actualizar en la base de datos los nuevos valores
@@ -157,8 +186,7 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         usuarioRepository.actualizar(usuarioNuevo);
         
         //Se mostrara un mensaje en el caso de que se haya realizado el registro con exito.
-        JOptionPane.showMessageDialog(this, "Se ha actualizado el usuario "
-                + "correctamente en la base de datos.", "Alerta", JOptionPane.WARNING_MESSAGE); 
+        JOptionPane.showMessageDialog(this, "Actualización exitosa.", "Alerta", JOptionPane.WARNING_MESSAGE); 
     }
     
     /**
@@ -177,13 +205,28 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         }
     }
     
+        public boolean validarCorreo() {
+        // Patrón para validar el correo
+        Pattern pattern = Pattern
+                .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+
+        Matcher mather = pattern.matcher(txtCorreo.getText());
+        if (mather.find() == true) {            
+            return true;
+        } else {            
+            JOptionPane.showMessageDialog(this, "El correo ingresado es inválido.",
+                    "Alerta", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+    }
+    
     /**
      * Método que se encarga de mostrar un mensaje indicando que hay campos vacios y
      * deben ser llenados.
      */
     private void mostrarMensaje(){
-        JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Alerta", JOptionPane.WARNING_MESSAGE); 
-    
+        JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Alerta", JOptionPane.WARNING_MESSAGE);     
     }
     
     /**
@@ -196,7 +239,7 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         txtNombre.setText(usuario.getNombre());
         txtCorreo.setText(usuario.getCorreo());
         txtEdad.setText(String.valueOf(usuario.getEdad()));
-        
+       
         //Cargar en el bombo box los sexos disponibles.
         DefaultComboBoxModel modelo = new DefaultComboBoxModel();
         modelo.addElement(Sexo.FEMENINO);

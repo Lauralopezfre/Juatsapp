@@ -22,11 +22,12 @@ public class FmCrearChat extends javax.swing.JFrame {
     ChatRepository chatRepository;
     JScrollPane scrollLista;
     Usuario usuario;
+    Usuario[] usuariosInvitados;
     
     public FmCrearChat(Frame padre, Usuario usuario) {
         initComponents();
         this.setTitle("Juatsapp");
-        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);                
         usuarioRepository = new UsuarioRepository();
         chatRepository = new ChatRepository();
         scrollLista = new JScrollPane();
@@ -182,9 +183,11 @@ public class FmCrearChat extends javax.swing.JFrame {
      * @return 
      */
     private boolean validarCampos(){
-        if(!txtTitulo.getText().isEmpty()){
+        if(!txtTitulo.getText().isEmpty() &&
+                jlUsuarios.getSelectedIndex() != -1){
             return true;
         }
+        mostrarMensajeError();
         return false;
     }
     
@@ -201,16 +204,14 @@ public class FmCrearChat extends javax.swing.JFrame {
      */
     private Chat guardarChatBD(){
         //Se crea un nuevo chat con el nombre que indique el usuario.
-        Chat chat = new Chat(txtTitulo.getText());
+        Chat chat = new Chat(txtTitulo.getText());              
         
-        Usuario[] usuariosInvitados = new Usuario[usuarioRepository.buscarTodas().size()];
-        
+        usuariosInvitados = new Usuario[usuarioRepository.buscarTodas().size()];
         //Se obtiene los usuarios seleccionados
         for (int i = 0; i < jlUsuarios.getSelectedValues().length; i++) {
             usuariosInvitados[i] = (Usuario)jlUsuarios.getSelectedValues()[i];
         }
-        
-        
+                
         //Relaciones usuarios a chat
         ArrayList<Rel_UsuariosChats> rel_usuariosChats = new ArrayList<>();
         
