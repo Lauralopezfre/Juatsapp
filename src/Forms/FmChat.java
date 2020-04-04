@@ -6,23 +6,45 @@
 package Forms;
 
 import entidades.Chat;
+import entidades.Mensaje;
+import entidades.Usuario;
 import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.ArrayList;
+import repositories.ChatRepository;
+import repositories.MensajeRepository;
+import repositories.UsuarioRepository;
 
 /**
  *
  * @author Estefanía Aguilar
  */
 public class FmChat extends javax.swing.JFrame {
-
+    public static final String newline = "\n";
+    UsuarioRepository usuarioRepository;
+    MensajeRepository mensajeRepository;
+    ChatRepository chatRepository;
+    Usuario usuario;
+    Mensaje mensaje;
+    Chat chat;
+    
     /**
      * Creates new form FmChat
      */
-    public FmChat(Frame padre, Chat chat) {
+    public FmChat(Frame padre, Usuario usuario, Chat chat) {
         initComponents();
         this.setTitle("Juatsapp");
         this.setLocationRelativeTo(null);
+        usuarioRepository = new UsuarioRepository();
+        mensajeRepository = new MensajeRepository();
+        chatRepository = new ChatRepository();
+        this.usuario = usuario;
+        mensaje = new Mensaje();
+        this.chat = chat;                       
+        txtChat.setEditable(false);   
+        txtTituloChat.setText(chat.getTitulo());
+        txtTituloChat.setEnabled(false);
     }
 
     /**
@@ -34,10 +56,13 @@ public class FmChat extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtTituloChat = new javax.swing.JTextField();
         lblIcon = new javax.swing.JLabel();
         btnEnviar = new javax.swing.JButton();
-        btnMensaje = new javax.swing.JTextField();
+        txtMensaje = new javax.swing.JTextField();
+        btnSalir = new javax.swing.JButton();
+        txtTituloChat = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtChat = new javax.swing.JTextArea();
         lblGris = new javax.swing.JLabel();
         lblFondo = new javax.swing.JLabel();
 
@@ -45,19 +70,41 @@ public class FmChat extends javax.swing.JFrame {
         setIconImage(getIconImage());
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtTituloChat.setEditable(false);
-        txtTituloChat.setBorder(null);
-        getContentPane().add(txtTituloChat, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 290, 30));
-
         lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bocadillo32.png"))); // NOI18N
         getContentPane().add(lblIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, -1));
 
         btnEnviar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/enviar.png"))); // NOI18N
+        btnEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnviarActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnEnviar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 410, -1, -1));
 
-        btnMensaje.setBackground(new java.awt.Color(255, 255, 255));
-        btnMensaje.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        getContentPane().add(btnMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, 280, 50));
+        txtMensaje.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        getContentPane().add(txtMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, 280, 50));
+
+        btnSalir.setBackground(new java.awt.Color(255, 255, 255));
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/regreso.png"))); // NOI18N
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 0, 60, 40));
+
+        txtTituloChat.setBackground(new java.awt.Color(255, 255, 255));
+        txtTituloChat.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txtTituloChat.setForeground(new java.awt.Color(0, 0, 0));
+        getContentPane().add(txtTituloChat, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 240, 30));
+
+        txtChat.setBackground(new java.awt.Color(204, 204, 204));
+        txtChat.setColumns(20);
+        txtChat.setForeground(new java.awt.Color(0, 0, 0));
+        txtChat.setRows(5);
+        jScrollPane1.setViewportView(txtChat);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 390, 360));
 
         lblGris.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/gris500.jpg"))); // NOI18N
         getContentPane().add(lblGris, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 390, 360));
@@ -68,7 +115,44 @@ public class FmChat extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-            
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        FmPantallaInicio fmPantallaInicio = new FmPantallaInicio(this, usuario);
+        fmPantallaInicio.show();
+        setVisible(false);
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
+        mensaje.setTexto(txtMensaje.getText());               
+        
+        txtChat.append(mensaje.getTexto() + newline);
+        txtMensaje.selectAll();        
+        
+        txtChat.setCaretPosition(txtChat.getDocument().getLength());
+        
+        ArrayList<Mensaje> mensajes = new ArrayList<>();
+        
+        for (Mensaje mensaje : mensajes) {
+            mensajes.add(mensaje);           
+        }
+        usuario.setMensajes(mensajes);
+//        chat.setMensajes(mensajes);
+//        
+        mensajeRepository.guardar(mensaje);
+////        usuarioRepository.actualizar(usuario);
+////        chatRepository.actualizar(chat);
+
+        txtMensaje.setText("");
+    }//GEN-LAST:event_btnEnviarActionPerformed
+    
+        /**
+     * Método que se encarga de mostrar los datos del chat en la ventana de chat.
+     * @param chat Chat que se desea mostrar
+     */
+    public void mostrarDatos(Chat chat){
+        //this.chat = chat;
+        //Se muestra solamente el titulo del chat en el chat.
+        //txtTituloChat.setText(chat.getTitulo());
+    }       
     
       @Override
     public Image getIconImage(){
@@ -78,10 +162,13 @@ public class FmChat extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviar;
-    private javax.swing.JTextField btnMensaje;
+    private javax.swing.JButton btnSalir;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblGris;
     private javax.swing.JLabel lblIcon;
-    private javax.swing.JTextField txtTituloChat;
+    private javax.swing.JTextArea txtChat;
+    private javax.swing.JTextField txtMensaje;
+    private javax.swing.JLabel txtTituloChat;
     // End of variables declaration//GEN-END:variables
 }

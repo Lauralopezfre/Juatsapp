@@ -129,7 +129,7 @@ public class FmCrearChat extends javax.swing.JFrame {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
        if(validarCampos()){
-           FmChat fmChat = new FmChat(this, guardarChatBD());
+           FmChat fmChat = new FmChat(this, usuario, guardarChatBD());
            fmChat.show();
            setVisible(false);
        }

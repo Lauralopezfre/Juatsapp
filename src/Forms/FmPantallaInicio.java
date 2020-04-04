@@ -80,6 +80,7 @@ public class FmPantallaInicio extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, 310, 380));
 
+        btnCrearChat.setBackground(new java.awt.Color(255, 255, 255));
         btnCrearChat.setText("Crear chat");
         btnCrearChat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -104,6 +105,11 @@ public class FmPantallaInicio extends javax.swing.JFrame {
         txtNombre.setBackground(new java.awt.Color(0, 153, 255));
         txtNombre.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         txtNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreActionPerformed(evt);
+            }
+        });
         getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 110, -1));
 
         lblNumChats.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -188,6 +194,10 @@ public class FmPantallaInicio extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreActionPerformed
+
     /**
      * Método que se encarga de validar que existan usuarios registrados antes de
      * crear un chat.
@@ -206,8 +216,7 @@ public class FmPantallaInicio extends javax.swing.JFrame {
      * para invitar a un chat.
      */
     private void mostrarMensaje(){
-        JOptionPane.showMessageDialog(this, "No hay usuarios registrados en la base de "
-                + "datos.", "Alerta", JOptionPane.WARNING_MESSAGE); 
+        JOptionPane.showMessageDialog(this, "No hay usuarios registrados.", "Alerta", JOptionPane.WARNING_MESSAGE); 
     
     }
     
