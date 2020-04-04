@@ -19,7 +19,7 @@ public class FmChat extends javax.swing.JFrame {
     /**
      * Creates new form FmChat
      */
-    public FmChat(Frame padre) {
+    public FmChat(Frame padre, Chat chat) {
         initComponents();
         this.setTitle("Juatsapp");
         this.setLocationRelativeTo(null);
@@ -68,13 +68,6 @@ public class FmChat extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * Método que se encarga de mostrar los datos del chat en la ventana de chat.
-     * @param chat Chat que se desea mostrar
-     */
-    public void mostrarDatos(Chat chat){
-        
-    }
             
     
       @Override

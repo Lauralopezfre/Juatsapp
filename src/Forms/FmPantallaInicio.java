@@ -16,15 +16,18 @@ import repositories.UsuarioRepository;
 public class FmPantallaInicio extends javax.swing.JFrame {
     UsuarioRepository usuarioRepository;
     Usuario usuario;
-    /**
-     * Creates new form FmPantallaInicio
-     */
-    public FmPantallaInicio(Frame padre) {
+    
+    
+    public FmPantallaInicio(Frame padre, Usuario usuario) {
         initComponents();
         this.setTitle("Juatsapp");
         this.setLocationRelativeTo(null);
         usuarioRepository = new UsuarioRepository();
-        usuario = new Usuario();
+        
+        //Usuario que inicio sesion
+        this.usuario = usuario;
+        
+        mostrarDatos();
     }
 
     /**
@@ -165,15 +168,14 @@ public class FmPantallaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        FmEditarPerfil fmEditarPerfil = new FmEditarPerfil(this);
+        FmEditarPerfil fmEditarPerfil = new FmEditarPerfil(this, usuario);
         fmEditarPerfil.show();
-        fmEditarPerfil.mostrarDatos(usuario);
         setVisible(false);
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnCrearChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearChatActionPerformed
         if (validarUsuariosBD()) {
-            FmCrearChat fmCrearChat = new FmCrearChat(this);
+            FmCrearChat fmCrearChat = new FmCrearChat(this, usuario);
             fmCrearChat.show();
             setVisible(false);
         }else{
@@ -208,22 +210,22 @@ public class FmPantallaInicio extends javax.swing.JFrame {
                 + "datos.", "Alerta", JOptionPane.WARNING_MESSAGE); 
     
     }
+    
     /**
      * Metodo que mostrara la información del cliente que inicio sesion en la pantalla principal.
-     * @param usuario Usuario que inicio sesión con su correo y contraseña.
      */
-    public void mostrarDatos(Usuario usuario){
-        this.usuario = usuario;
+    private void mostrarDatos(){
         //Se muestra solamente el nombre del usuario en la pantalla principal.
         txtNombre.setText(usuario.getNombre());
         
         //Mostrar los chats del usuario en la pantalla de inicio.
-        mostrarChats(usuario);
-        
-        
+        mostrarChats();
      }
     
-    private void mostrarChats(Usuario usuario) {
+    /**
+     * Método que se encarga de mostrar en una tabla los chats que tiene el usuario.
+     */
+    private void mostrarChats() {
         if (!usuario.getMensajes().isEmpty()) {
             //Mostrar la cantidad de chats que tiene el usuario.
             int contador = 0;

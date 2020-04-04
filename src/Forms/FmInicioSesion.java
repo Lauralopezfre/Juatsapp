@@ -93,6 +93,7 @@ public class FmInicioSesion extends javax.swing.JFrame {
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         FmRegistrar fmRegistrar = new FmRegistrar(this);
         fmRegistrar.show();
+        setVisible(false);
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
@@ -152,13 +153,10 @@ public class FmInicioSesion extends javax.swing.JFrame {
 
             if (obtenerUsuarioBD() != null) {
                 //Llamar a la pantalla de inicio.
-                FmPantallaInicio fmPantallaInicio = new FmPantallaInicio(this);
+                FmPantallaInicio fmPantallaInicio = new FmPantallaInicio(this, obtenerUsuarioBD());
                 fmPantallaInicio.show();
-
-                //Se muesta la información del usuario en el frame 
-                fmPantallaInicio.mostrarDatos(obtenerUsuarioBD());
                 setVisible(false);
-                return;
+                
 
             } else {
                 /*

@@ -21,16 +21,20 @@ public class FmCrearChat extends javax.swing.JFrame {
     UsuarioRepository usuarioRepository;
     ChatRepository chatRepository;
     JScrollPane scrollLista;
-    /**
-     * Creates new form FmCrearChat
-     */
-    public FmCrearChat(Frame padre) {
+    Usuario usuario;
+    
+    public FmCrearChat(Frame padre, Usuario usuario) {
         initComponents();
         this.setTitle("Juatsapp");
         this.setLocationRelativeTo(null);
         usuarioRepository = new UsuarioRepository();
         chatRepository = new ChatRepository();
         scrollLista = new JScrollPane();
+        
+        //Usuario que inicion sesion
+        this.usuario = usuario;
+        
+        //Se muestran los usuarios que se pueden agregar al chat.
         mostrarUsuarios(obtenerUsuariosBD());
     }
 
@@ -125,24 +129,35 @@ public class FmCrearChat extends javax.swing.JFrame {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
        if(validarCampos()){
-           FmChat fmChat = new FmChat(this);
+           FmChat fmChat = new FmChat(this, guardarChatBD());
            fmChat.show();
-           fmChat.mostrarDatos(guardarChatBD());
            setVisible(false);
        }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        FmPantallaInicio fmPantallaInicio = new FmPantallaInicio(this, usuario);
+        fmPantallaInicio.show();
+        setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * Método que se encarga obtener todos los usuarios almacenados en la base de datos.
-     * @return 
+     * @return Usuarios que se pueden agregar al chat
      */
     private ArrayList<Usuario> obtenerUsuariosBD(){
+        
         //Se obtiene todos los usuarios registrados en la base de datos.
-        return usuarioRepository.buscarTodas();
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        
+        //Solamente se muestran todos los usuarios menos el que inicio sesion
+        for (Usuario usuario : usuarioRepository.buscarTodas()) {
+            //No se almacena el usuario que se esta utilizando
+            if(!this.usuario.getId().equals(usuario.getId())){
+                usuarios.add(usuario);
+            }
+        }
+        return usuarios;
     }
     
     /**
@@ -202,6 +217,14 @@ public class FmCrearChat extends javax.swing.JFrame {
         for (Usuario usuario : usuariosInvitados) {
             rel_usuariosChats.add(new Rel_UsuariosChats(usuario, chat));
         }
+        
+        /*
+        Ademas de agregar al chat a los usuarios que se invitaron, tambien se agrega 
+        al usuario que lo creo.
+        */
+        rel_usuariosChats.add(new Rel_UsuariosChats(usuario, chat));
+        
+        //Se agrega la relacion de los usuario con el chat, al chat creado.
         chat.setUsuarios(rel_usuariosChats);
         
         //Se almacena en la base de datos.

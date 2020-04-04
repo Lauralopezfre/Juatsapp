@@ -124,6 +124,8 @@ public class FmRegistrar extends javax.swing.JFrame {
         if(validadCampos()){
             guardarBD();
             mostrarMensaje();
+            FmInicioSesion fmIniciaoSesion = new FmInicioSesion();
+            fmIniciaoSesion.show();
             setVisible(false);
         }else{
            mostrarMensajeError();

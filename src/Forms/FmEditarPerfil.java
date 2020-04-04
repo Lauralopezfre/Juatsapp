@@ -22,15 +22,17 @@ public class FmEditarPerfil extends javax.swing.JFrame {
     UsuarioRepository usuarioRepository;
     Usuario usuario;
 
-    /**
-     * Creates new form FmEditarDatos
-     */
-    public FmEditarPerfil(Frame padre) {
+    public FmEditarPerfil(Frame padre, Usuario usuario) {
         initComponents();
         this.setTitle("Juatsapp");
         this.setLocationRelativeTo(null);
+        
+        //Usuario que inicio sesion
+        this.usuario = usuario;
+        mostrarDatos();
         usuarioRepository = new UsuarioRepository();
         txtID.setEnabled(false);
+        
     }
 
     /**
@@ -73,6 +75,11 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         getContentPane().add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 350, 140, 30));
 
         btnContrasenia.setText("Contraseña");
+        btnContrasenia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnContraseniaActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 400, 140, 30));
 
         btnAceptar.setBackground(new java.awt.Color(204, 204, 204));
@@ -125,17 +132,21 @@ public class FmEditarPerfil extends javax.swing.JFrame {
                     this.usuario.getContrasenia(), txtCorreo.getText(), Integer.parseInt(txtEdad.getText()), 
                     (Sexo)cbSexo.getSelectedItem());
             actualizarDatosBD(usuarioActualizado);
-            mostrarDatos(usuarioActualizado);
             
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        FmPantallaInicio fmPantallaInicio = new FmPantallaInicio(this);
+        FmPantallaInicio fmPantallaInicio = new FmPantallaInicio(this, usuario);
         fmPantallaInicio.show();
-        fmPantallaInicio.mostrarDatos(usuario);
         setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnContraseniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContraseniaActionPerformed
+        FmCambioConstrasenia fmCambioConstrasenia = new FmCambioConstrasenia(this, usuario);
+        fmCambioConstrasenia.show();
+        setVisible(false);
+    }//GEN-LAST:event_btnContraseniaActionPerformed
 
     
     /**
@@ -178,9 +189,8 @@ public class FmEditarPerfil extends javax.swing.JFrame {
     /**
      * Metodo que se encarga de mostrar la información del usuario en la venta 
      * para tener la posibilidad de editarlo.
-     * @param usuario Usuario a editar
      */
-    public void mostrarDatos(Usuario usuario){
+    public void mostrarDatos(){
         //Mostrar la información del usuario en los campos de textos.
         txtID.setText(String.valueOf(usuario.getId()));
         txtNombre.setText(usuario.getNombre());
@@ -193,8 +203,6 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         modelo.addElement(Sexo.MASCULINO);
         modelo.addElement(Sexo.ROBOT);
         cbSexo.setModel(modelo);
-        
-        this.usuario = usuario;
     }
     
     @Override
