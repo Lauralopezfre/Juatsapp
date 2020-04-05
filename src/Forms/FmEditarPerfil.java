@@ -23,6 +23,7 @@ import repositories.UsuarioRepository;
 public class FmEditarPerfil extends javax.swing.JFrame {
     UsuarioRepository usuarioRepository;
     Usuario usuario;
+    FmPantallaInicio fmPantallaInicio;
 
     public FmEditarPerfil(Frame padre, Usuario usuario) {
         initComponents();
@@ -33,6 +34,7 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         this.usuario = usuario;
         mostrarDatos();
         usuarioRepository = new UsuarioRepository();
+        fmPantallaInicio = new FmPantallaInicio(this, usuario);
         txtID.setEnabled(false);
         
     }
@@ -148,13 +150,13 @@ public class FmEditarPerfil extends javax.swing.JFrame {
             Usuario usuarioActualizado = new Usuario(Long.valueOf(txtID.getText()), txtNombre.getText(), 
                     this.usuario.getContrasenia(), txtCorreo.getText(), Integer.parseInt(txtEdad.getText()), 
                     (Sexo)cbSexo.getSelectedItem());
-            actualizarDatosBD(usuarioActualizado);
-            
+            actualizarDatosBD(usuarioActualizado);           
         }
+        fmPantallaInicio.show();
+        setVisible(false);
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        FmPantallaInicio fmPantallaInicio = new FmPantallaInicio(this, usuario);
         fmPantallaInicio.show();
         setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed

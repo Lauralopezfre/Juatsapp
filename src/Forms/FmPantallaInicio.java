@@ -101,7 +101,7 @@ public class FmPantallaInicio extends javax.swing.JFrame {
         getContentPane().add(btnCrearChat, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 110, -1));
 
         btnCancelar.setBackground(new java.awt.Color(204, 204, 204));
-        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/prohibido.png"))); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/salida.png"))); // NOI18N
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
@@ -217,7 +217,9 @@ public class FmPantallaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCrearChatActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        System.exit(0);
+        FmInicioSesion fmInicioSesion = new FmInicioSesion();
+        fmInicioSesion.show();
+        setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed

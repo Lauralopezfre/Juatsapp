@@ -83,7 +83,7 @@
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/Imagenes/prohibido.png"/>
+          <Image iconType="3" name="/Imagenes/salida.png"/>
         </Property>
       </Properties>
       <Events>
