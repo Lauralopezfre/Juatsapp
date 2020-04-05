@@ -7,11 +7,14 @@ package Forms;
 
 import entidades.Chat;
 import entidades.Mensaje;
+import entidades.Rel_UsuariosChats;
 import entidades.Usuario;
 import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import repositories.ChatRepository;
 import repositories.MensajeRepository;
 import repositories.UsuarioRepository;
@@ -27,25 +30,24 @@ public class FmChat extends javax.swing.JFrame {
     MensajeRepository mensajeRepository;
     ChatRepository chatRepository;
     Usuario usuario;
-    Mensaje mensaje;
+    //Lista de mensajes del chat
+    List<Mensaje> mensajes;
     Chat chat;
 
-    /**
-     * Creates new form FmChat
-     */
     public FmChat(Frame padre, Usuario usuario, Chat chat) {
         initComponents();
         this.setTitle("Juatsapp");
         this.setLocationRelativeTo(null);
+        
         usuarioRepository = new UsuarioRepository();
         mensajeRepository = new MensajeRepository();
         chatRepository = new ChatRepository();
+        
         this.usuario = usuario;
-        mensaje = new Mensaje();
         this.chat = chat;
-        txtChat.setEditable(false);
-        txtTituloChat.setText(chat.getTitulo());
-        txtTituloChat.setEnabled(false);
+        
+        mensajes = this.chat.getMensajes();
+        mostrarDatos();
     }
 
     /**
@@ -117,7 +119,7 @@ public class FmChat extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        FmPantallaInicio fmPantallaInicio = new FmPantallaInicio(this, usuario);
+        FmPantallaInicio fmPantallaInicio = new FmPantallaInicio(this, usuarioRepository.buscarPorId(usuario.getId()));
         fmPantallaInicio.show();
         setVisible(false);
     }//GEN-LAST:event_btnSalirActionPerformed
@@ -125,15 +127,26 @@ public class FmChat extends javax.swing.JFrame {
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
         if (validarMensaje()) {
             
-            mensaje.setTexto(txtMensaje.getText());
-            mensaje.setUsuario(this.usuario);
-            mensaje.setChat(this.chat);
+            //Crear mensaje
+            Mensaje mensaje = new Mensaje(txtMensaje.getText(), this.usuario, this.chat, new Date());
             
+            //Mostrar en pantalla el mensaje
             txtChat.append(mensaje.getUsuario().getNombre() + ": " + mensaje.getTexto() + newline);
             txtMensaje.selectAll();
             txtChat.setCaretPosition(txtChat.getDocument().getLength());
-
+            
+            //Guardar el mensaje en la base de datos.
             mensajeRepository.guardar(mensaje);
+            //Agregar el mensaje a la lista de mensajes del chat
+            mensajes.add(mensaje);
+            
+            //Se actualiza los mensajes en el chat que ya existia
+            this.chat.setMensajes(mensajes);
+
+            //Actualizar en la base de datos el chat con los mensajes
+            chatRepository.actualizar(this.chat);
+            
+            usuarioRepository.actualizar(usuario);
 
             txtMensaje.setText("");
         }
@@ -142,16 +155,29 @@ public class FmChat extends javax.swing.JFrame {
     /**
      * Método que se encarga de mostrar los datos del chat en la ventana de
      * chat.
-     *
-     * @param chat Chat que se desea mostrar
      */
-    public void mostrarDatos(Chat chat) {
-        //this.chat = chat;
-        //Se muestra solamente el titulo del chat en el chat.
-        //txtTituloChat.setText(chat.getTitulo());
+    public void mostrarDatos() {
+        
+        //Mostrar en pantalla el nombre del chat
+        txtChat.setEditable(false);
+        txtTituloChat.setText(chat.getTitulo());
+        txtTituloChat.setEnabled(false);
+
+        //Validacion que identifica si el chat tiene o no mensajes.
+        if (!chat.getMensajes().isEmpty()) {
+            //Mostrar en pantalla el mensaje
+            for (Mensaje mensaje : chat.getMensajes()) {
+                txtChat.append(mensaje.getUsuario().getNombre() + ": " + mensaje.getTexto() + newline);
+                txtMensaje.selectAll();
+                txtChat.setCaretPosition(txtChat.getDocument().getLength());
+            }
+        }
     }
 
-    //Valida que no se mande un mensaje vacio
+    /**
+     * Método que se encarga de no generar ningun mensaje vacio el chat.
+     * @return Indica si el campo esta vacio o no,
+     */
     public boolean validarMensaje() {
         if (!txtMensaje.getText().isEmpty()){
             for(int i =0; i<txtMensaje.getText().length(); i++){

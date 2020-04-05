@@ -7,6 +7,7 @@ import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -130,7 +131,7 @@ public class FmCrearChat extends javax.swing.JFrame {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
        if(validarCampos()){
-           FmChat fmChat = new FmChat(this, usuario, guardarChatBD());
+           FmChat fmChat = new FmChat(this, usuarioRepository.buscarPorId(usuario.getId()), guardarChatBD());
            fmChat.show();
            setVisible(false);
        }
@@ -206,7 +207,7 @@ public class FmCrearChat extends javax.swing.JFrame {
         //Se crea un nuevo chat con el nombre que indique el usuario.
         Chat chat = new Chat(txtTitulo.getText());              
         
-        usuariosInvitados = new Usuario[usuarioRepository.buscarTodas().size()];
+        usuariosInvitados = new Usuario[jlUsuarios.getSelectedValues().length];
         //Se obtiene los usuarios seleccionados
         for (int i = 0; i < jlUsuarios.getSelectedValues().length; i++) {
             usuariosInvitados[i] = (Usuario)jlUsuarios.getSelectedValues()[i];
@@ -225,13 +226,25 @@ public class FmCrearChat extends javax.swing.JFrame {
         */
         rel_usuariosChats.add(new Rel_UsuariosChats(usuario, chat));
         
+//        List<Rel_UsuariosChats> usuarioChats = usuario.getChats();
+//        usuarioChats.add(new Rel_UsuariosChats(usuario, chat));
+        usuario.setChats(rel_usuariosChats);
+        
         //Se agrega la relacion de los usuario con el chat, al chat creado.
         chat.setUsuarios(rel_usuariosChats);
         
         //Se almacena en la base de datos.
         chatRepository.guardar(chat);
+        usuarioRepository.actualizar(usuario);
         
-        return chat;
+        //Esto es un extra para regresa el chat pero de la base de datos.
+        for (Chat chatGuardado : chatRepository.buscarTodas()) {
+            if(chatGuardado.getTitulo().equalsIgnoreCase(chat.getTitulo())){
+                return chatGuardado;
+            }
+        }
+        
+        return null;
       
     }
     @Override

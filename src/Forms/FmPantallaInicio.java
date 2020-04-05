@@ -1,5 +1,7 @@
 package Forms;
 
+import entidades.Chat;
+import entidades.Mensaje;
 import entidades.Rel_UsuariosChats;
 import entidades.Usuario;
 import java.awt.Frame;
@@ -7,6 +9,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import repositories.ChatRepository;
 import repositories.UsuarioRepository;
 
 /**
@@ -15,6 +18,7 @@ import repositories.UsuarioRepository;
  */
 public class FmPantallaInicio extends javax.swing.JFrame {
     UsuarioRepository usuarioRepository;
+    ChatRepository chatRepository;
     Usuario usuario;
     
     
@@ -23,7 +27,7 @@ public class FmPantallaInicio extends javax.swing.JFrame {
         this.setTitle("Juatsapp");
         this.setLocationRelativeTo(null);
         usuarioRepository = new UsuarioRepository();
-        
+        chatRepository = new ChatRepository();
         //Usuario que inicio sesion
         this.usuario = usuario;
         
@@ -78,9 +82,14 @@ public class FmPantallaInicio extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tbChats.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbChatsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbChats);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 310, 380));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, 320, 380));
 
         btnCrearChat.setBackground(new java.awt.Color(255, 255, 255));
         btnCrearChat.setText("Crear chat");
@@ -137,7 +146,7 @@ public class FmPantallaInicio extends javax.swing.JFrame {
                 btnBuscarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 20, -1, -1));
+        getContentPane().add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, -1, -1));
 
         txtBuscarChat.setBackground(new java.awt.Color(204, 204, 204));
         txtBuscarChat.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -159,11 +168,11 @@ public class FmPantallaInicio extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 280, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 410, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 280, 410));
@@ -172,7 +181,23 @@ public class FmPantallaInicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+        if(!usuario.getMensajes().isEmpty()){
+            //Buscar primero por los chats
+            DefaultTableModel modelo = (DefaultTableModel) tbChats.getModel();
+            modelo.setRowCount(0);
+            Object[] columna = new Object[2];
+            for (Rel_UsuariosChats chats : usuario.getChats()) {
+                for (Mensaje mensaje : chats.getChat().getMensajes()) {
+                    if(txtBuscarChat.getText().equalsIgnoreCase(mensaje.getTexto())){   
+                        //Mostrar los mensajes en la tabla
+                        columna[0] = mensaje.getChat().getTitulo();
+                        columna[1] = mensaje.getTexto();
+                        //Agregar el chat a la tabla.
+                        modelo.addRow(columna);
+                    }
+                } 
+            }
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -198,6 +223,20 @@ public class FmPantallaInicio extends javax.swing.JFrame {
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void tbChatsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbChatsMouseClicked
+        int indiceFila = tbChats.getSelectedRow();
+        String nombreChat = (String)tbChats.getValueAt(indiceFila, 0);
+        
+        for (Chat chat : chatRepository.buscarTodas()) {
+            if(chat.getTitulo().equalsIgnoreCase(nombreChat)){
+                FmChat fmChat = new FmChat(this, usuario, chat);
+                fmChat.show();
+                setVisible(false);
+                return;
+            }
+        }
+    }//GEN-LAST:event_tbChatsMouseClicked
 
     /**
      * Método que se encarga de validar que existan usuarios registrados antes de
@@ -236,7 +275,7 @@ public class FmPantallaInicio extends javax.swing.JFrame {
      * Método que se encarga de mostrar en una tabla los chats que tiene el usuario.
      */
     private void mostrarChats() {
-        if (!usuario.getMensajes().isEmpty()) {
+        if (!usuario.getChats().isEmpty()) {
             //Mostrar la cantidad de chats que tiene el usuario.
             int contador = 0;
 
@@ -248,9 +287,9 @@ public class FmPantallaInicio extends javax.swing.JFrame {
             for (Rel_UsuariosChats chat : usuario.getChats()) {
 
                 columna[0] = chat.getChat().getTitulo();
-
+                
                 //Obtener el ultimo mensaje para mostrarlo en los chats
-                //columna[1] = chat.getChat().getMensajes().get(chat.getChat().getMensajes().size() - 1).getTexto();
+                columna[1] = chat.getChat().getMensajes().get(chat.getChat().getMensajes().size() - 1).getTexto();
                 
                 //Agregar el chat a la tabla.
                 modelo.addRow(columna);
