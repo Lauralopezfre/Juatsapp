@@ -224,11 +224,13 @@ public class FmCrearChat extends javax.swing.JFrame {
         Ademas de agregar al chat a los usuarios que se invitaron, tambien se agrega 
         al usuario que lo creo.
         */
-        rel_usuariosChats.add(new Rel_UsuariosChats(usuario, chat));
+        Rel_UsuariosChats chatUsuario = new Rel_UsuariosChats(usuario, chat);
+        rel_usuariosChats.add(chatUsuario);
         
-//        List<Rel_UsuariosChats> usuarioChats = usuario.getChats();
-//        usuarioChats.add(new Rel_UsuariosChats(usuario, chat));
-        usuario.setChats(rel_usuariosChats);
+        
+        List<Rel_UsuariosChats> usuarioChats = usuario.getChats();
+        usuarioChats.add(chatUsuario);
+        usuario.setChats(usuarioChats);
         
         //Se agrega la relacion de los usuario con el chat, al chat creado.
         chat.setUsuarios(rel_usuariosChats);
