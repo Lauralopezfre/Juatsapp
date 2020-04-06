@@ -152,8 +152,8 @@ public class FmPantallaInicio extends javax.swing.JFrame {
         txtBuscarChat.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         getContentPane().add(txtBuscarChat, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, 230, 30));
 
-        lblBuscarChat.setText("Buscar chat");
-        getContentPane().add(lblBuscarChat, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, -1, 20));
+        lblBuscarChat.setText("Buscar mensaje");
+        getContentPane().add(lblBuscarChat, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 100, 20));
 
         lblAzul.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/azul638.jpg"))); // NOI18N
         getContentPane().add(lblAzul, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -10, 140, 480));

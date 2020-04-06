@@ -151,9 +151,9 @@ public class FmEditarPerfil extends javax.swing.JFrame {
                     this.usuario.getContrasenia(), txtCorreo.getText(), Integer.parseInt(txtEdad.getText()), 
                     (Sexo)cbSexo.getSelectedItem());
             actualizarDatosBD(usuarioActualizado);           
-        }
-        fmPantallaInicio.show();
-        setVisible(false);
+            fmPantallaInicio.show();
+            setVisible(false);
+        }        
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
