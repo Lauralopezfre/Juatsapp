@@ -23,6 +23,7 @@ public class FmInicioSesion extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         
         usuarioRepository = new UsuarioRepository();
+
     }
 
     /**

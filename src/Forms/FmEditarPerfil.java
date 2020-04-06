@@ -23,7 +23,6 @@ import repositories.UsuarioRepository;
 public class FmEditarPerfil extends javax.swing.JFrame {
     UsuarioRepository usuarioRepository;
     Usuario usuario;
-    FmPantallaInicio fmPantallaInicio;
 
     public FmEditarPerfil(Frame padre, Usuario usuario) {
         initComponents();
@@ -34,7 +33,6 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         this.usuario = usuario;
         mostrarDatos();
         usuarioRepository = new UsuarioRepository();
-        fmPantallaInicio = new FmPantallaInicio(this, usuario);
         txtID.setEnabled(false);
         
     }
@@ -147,16 +145,22 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         y a actualizar en la base de datos estos nuevos valores.
         */
         if(validarCampos() && validarCorreo()){
-            Usuario usuarioActualizado = new Usuario(Long.valueOf(txtID.getText()), txtNombre.getText(), 
-                    this.usuario.getContrasenia(), txtCorreo.getText(), Integer.parseInt(txtEdad.getText()), 
-                    (Sexo)cbSexo.getSelectedItem());
-            actualizarDatosBD(usuarioActualizado);           
+            usuario.setCorreo(txtCorreo.getText());
+            usuario.setEdad(Integer.parseInt(txtEdad.getText()));
+            usuario.setNombre(txtNombre.getText());
+            usuario.setSexo((Sexo)cbSexo.getSelectedItem());
+            
+            //Actualizar en la base de datos.
+            actualizarDatosBD();
+            //Se devuelve a la pantalla de inicio.
+            FmPantallaInicio fmPantallaInicio = new FmPantallaInicio(this, usuario);
             fmPantallaInicio.show();
             setVisible(false);
         }        
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        FmPantallaInicio fmPantallaInicio = new FmPantallaInicio(this, usuario);
         fmPantallaInicio.show();
         setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
@@ -184,11 +188,11 @@ public class FmEditarPerfil extends javax.swing.JFrame {
      * Método que se encarga de actualizar en la base de datos los nuevos valores
      * de los atributos del usuario.
      */
-    private void actualizarDatosBD(Usuario usuarioNuevo){
-        usuarioRepository.actualizar(usuarioNuevo);
+    private void actualizarDatosBD(){
+        usuarioRepository.actualizar(this.usuario);
         
         //Se mostrara un mensaje en el caso de que se haya realizado el registro con exito.
-        JOptionPane.showMessageDialog(this, "Actualización exitosa.", "Alerta", JOptionPane.WARNING_MESSAGE); 
+        JOptionPane.showMessageDialog(this, "Actualización exitosa.", "Alerta", JOptionPane.INFORMATION_MESSAGE); 
     }
     
     /**
