@@ -49,6 +49,7 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         
         //Usuario que inicio sesion
         this.usuario = usuario;
+        this.foto = new File(usuario.getFoto());
         mostrarDatos();
         usuarioRepository = new UsuarioRepository();
         txtID.setEnabled(false);
