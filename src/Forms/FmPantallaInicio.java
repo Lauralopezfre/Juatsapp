@@ -5,8 +5,15 @@ import entidades.Mensaje;
 import entidades.Rel_UsuariosChats;
 import entidades.Usuario;
 import java.awt.Frame;
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import repositories.ChatRepository;
@@ -47,7 +54,7 @@ public class FmPantallaInicio extends javax.swing.JFrame {
         tbChats = new javax.swing.JTable();
         btnCrearChat = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        lblUsuario = new javax.swing.JLabel();
+        lblFoto = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         lblNumChats = new javax.swing.JLabel();
         btnEditar = new javax.swing.JButton();
@@ -109,8 +116,8 @@ public class FmPantallaInicio extends javax.swing.JFrame {
         });
         getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, -1, 60));
 
-        lblUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/usuario.png"))); // NOI18N
-        getContentPane().add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+        lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/usuario.png"))); // NOI18N
+        getContentPane().add(lblFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
         txtNombre.setEditable(false);
         txtNombre.setBackground(new java.awt.Color(0, 153, 255));
@@ -269,10 +276,32 @@ public class FmPantallaInicio extends javax.swing.JFrame {
         //Se muestra solamente el nombre del usuario en la pantalla principal.
         txtNombre.setText(usuario.getNombre());
         
+        //Mostrar la foto
+        Icon icon = new ImageIcon(usuario.getFoto());
+        this.lblFoto.setIcon(new ImageIcon(iconToImage(icon).getScaledInstance(
+        lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_DEFAULT)));
+        
         //Mostrar los chats del usuario en la pantalla de inicio.
         mostrarChats();
      }
     
+    private Image iconToImage(Icon icon) {
+        if (icon instanceof ImageIcon) {
+            return ((ImageIcon) icon).getImage();
+        } else {
+            int w = icon.getIconWidth();
+            int h = icon.getIconHeight();
+            GraphicsEnvironment ge
+                    = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsDevice gd = ge.getDefaultScreenDevice();
+            GraphicsConfiguration gc = gd.getDefaultConfiguration();
+            BufferedImage image = gc.createCompatibleImage(w, h);
+            Graphics2D g = image.createGraphics();
+            icon.paintIcon(null, g, 0, 0);
+            g.dispose();
+            return image;
+        }
+    }
     /**
      * Método que se encarga de mostrar en una tabla los chats que tiene el usuario.
      */
@@ -322,9 +351,9 @@ public class FmPantallaInicio extends javax.swing.JFrame {
     private javax.swing.JLabel lblAzul;
     private javax.swing.JLabel lblBuscarChat;
     private javax.swing.JLabel lblFondo;
+    private javax.swing.JLabel lblFoto;
     private javax.swing.JLabel lblGris;
     private javax.swing.JLabel lblNumChats;
-    private javax.swing.JLabel lblUsuario;
     private javax.swing.JTable tbChats;
     private javax.swing.JTextField txtBuscarChat;
     private javax.swing.JTextField txtNombre;

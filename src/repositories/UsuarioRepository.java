@@ -64,6 +64,7 @@ public class UsuarioRepository extends BaseRepository<Usuario>{
             usuario.setSexo(usuarioActualizado.getSexo());
             usuario.setChats(usuarioActualizado.getChats());
             usuario.setMensajes(usuarioActualizado.getMensajes());
+            usuario.setFoto(usuarioActualizado.getFoto());
             entityManager.merge(usuario);
         }
         entityManager.getTransaction().commit();

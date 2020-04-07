@@ -59,6 +59,7 @@ public class Usuario implements Serializable {
         this.edad = edad;
         this.sexo = sexo;
     }
+    
 
     /**
      * Constructor que llama al otro constructor que crea las listas

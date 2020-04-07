@@ -3,8 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/laura/Google%20Drive/ITSON/Semestre%204/Bases%20de%20Datos%20Avanzadas/Recuperación/Juatsapp/src/Forms/FmChat.java</file>
+            <file>file:/C:/Users/laura/Google%20Drive/ITSON/Semestre%204/Bases%20de%20Datos%20Avanzadas/Recuperación/Juatsapp/src/entidades/Usuario.java</file>
+            <file>file:/C:/Users/laura/Google%20Drive/ITSON/Semestre%204/Bases%20de%20Datos%20Avanzadas/Recuperación/Juatsapp/src/Forms/FmEditarPerfil.java</file>
+            <file>file:/C:/Users/laura/Google%20Drive/ITSON/Semestre%204/Bases%20de%20Datos%20Avanzadas/Recuperación/Juatsapp/src/repositories/UsuarioRepository.java</file>
             <file>file:/C:/Users/laura/Google%20Drive/ITSON/Semestre%204/Bases%20de%20Datos%20Avanzadas/Recuperación/Juatsapp/src/Forms/FmPantallaInicio.java</file>
+            <file>file:/C:/Users/laura/Google%20Drive/ITSON/Semestre%204/Bases%20de%20Datos%20Avanzadas/Recuperación/Juatsapp/src/Forms/FmRegistrar.java</file>
             <file>file:/C:/Users/laura/Google%20Drive/ITSON/Semestre%204/Bases%20de%20Datos%20Avanzadas/Recuperación/Juatsapp/src/Forms/FmInicioSesion.java</file>
         </group>
     </open-files>

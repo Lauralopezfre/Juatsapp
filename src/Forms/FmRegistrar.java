@@ -205,10 +205,10 @@ public class FmRegistrar extends javax.swing.JFrame {
      * Metodo que se encarga de guardar un usuario en la base de datos.
      */
     private void guardarBD() {
-//        Usuario usuario = new Usuario(txtNombre.getText(), txtContrasenia.getText(),
-//                 txtCorreo.getText(), Integer.parseInt(txtEdad.getText()), (Sexo) cbSexo.getSelectedItem());
-//
-//        usuarioRepository.guardar(usuario);
+        Usuario usuario = new Usuario("src/FotoPerfil/usuario.png", txtNombre.getText(), txtContrasenia.getText(),
+                 txtCorreo.getText(), Integer.parseInt(txtEdad.getText()), (Sexo) cbSexo.getSelectedItem());
+
+        usuarioRepository.guardar(usuario);
     }
 
     /**

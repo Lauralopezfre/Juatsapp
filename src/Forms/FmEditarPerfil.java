@@ -15,6 +15,12 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
@@ -32,6 +38,9 @@ import repositories.UsuarioRepository;
 public class FmEditarPerfil extends javax.swing.JFrame {
     UsuarioRepository usuarioRepository;
     Usuario usuario;
+    File foto;
+    InputStream inputStream = null;
+    OutputStream outputStream = null;
 
     public FmEditarPerfil(Frame padre, Usuario usuario) {
         initComponents();
@@ -55,7 +64,6 @@ public class FmEditarPerfil extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblIcono = new javax.swing.JLabel();
         lblFoto = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         txtEdad = new javax.swing.JTextField();
@@ -77,16 +85,13 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(400, 520));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/usuario.png"))); // NOI18N
-        getContentPane().add(lblIcono, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, -1));
-
         lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/usuario.png"))); // NOI18N
         lblFoto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblFotoMouseClicked(evt);
             }
         });
-        getContentPane().add(lblFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, -1, -1));
+        getContentPane().add(lblFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 90, -1, -1));
 
         txtNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -168,6 +173,26 @@ public class FmEditarPerfil extends javax.swing.JFrame {
             usuario.setNombre(txtNombre.getText());
             usuario.setSexo((Sexo)cbSexo.getSelectedItem());
             
+            
+            try {
+                File archivoOriginal = foto.getAbsoluteFile();
+                File archivoCopia = new File("src/FotoPerfil/"+ usuario.getId() +".jpg");
+
+                inputStream = new FileInputStream(archivoOriginal);
+                outputStream = new FileOutputStream(archivoCopia);
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = inputStream.read(buffer)) > 0) {
+                    outputStream.write(buffer, 0, length);
+                }
+                usuario.setFoto(archivoCopia.getPath());
+                inputStream.close();
+                outputStream.close();
+                System.out.println("Archivo copiado.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            
             //Actualizar en la base de datos.
             actualizarDatosBD();
             //Se devuelve a la pantalla de inicio.
@@ -210,6 +235,7 @@ public class FmEditarPerfil extends javax.swing.JFrame {
             Icon icon = new ImageIcon(jfc.getSelectedFile().getPath());
             this.lblFoto.setIcon(new ImageIcon(iconToImage(icon).getScaledInstance(
                     lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_DEFAULT)));
+            foto = jfc.getSelectedFile();
         }
     }//GEN-LAST:event_lblFotoMouseClicked
 
@@ -275,6 +301,11 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         txtNombre.setText(usuario.getNombre());
         txtCorreo.setText(usuario.getCorreo());
         txtEdad.setText(String.valueOf(usuario.getEdad()));
+        
+        //Mostrar la foto
+        Icon icon = new ImageIcon(usuario.getFoto());
+        this.lblFoto.setIcon(new ImageIcon(iconToImage(icon).getScaledInstance(
+        lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_DEFAULT)));
        
         //Cargar en el bombo box los sexos disponibles.
         DefaultComboBoxModel modelo = new DefaultComboBoxModel();
@@ -318,7 +349,6 @@ public class FmEditarPerfil extends javax.swing.JFrame {
     private javax.swing.JLabel lblEditar;
     private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblFoto;
-    private javax.swing.JLabel lblIcono;
     private javax.swing.JLabel lblPerfil;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtEdad;
