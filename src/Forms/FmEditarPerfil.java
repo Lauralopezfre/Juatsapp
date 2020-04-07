@@ -8,12 +8,21 @@ package Forms;
 import Enum.Sexo;
 import entidades.Usuario;
 import java.awt.Frame;
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import repositories.UsuarioRepository;
 
 /**
@@ -47,6 +56,7 @@ public class FmEditarPerfil extends javax.swing.JFrame {
     private void initComponents() {
 
         lblIcono = new javax.swing.JLabel();
+        lblFoto = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         txtEdad = new javax.swing.JTextField();
         cbSexo = new javax.swing.JComboBox<>();
@@ -68,7 +78,15 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/usuario.png"))); // NOI18N
-        getContentPane().add(lblIcono, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 80, -1, -1));
+        getContentPane().add(lblIcono, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, -1));
+
+        lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/usuario.png"))); // NOI18N
+        lblFoto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblFotoMouseClicked(evt);
+            }
+        });
+        getContentPane().add(lblFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, -1, -1));
 
         txtNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -183,6 +201,18 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtEdadKeyTyped
 
+    private void lblFotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFotoMouseClicked
+        JFileChooser jfc = new JFileChooser();
+        jfc.setFileFilter(new FileNameExtensionFilter("*.jpg, *.jpeg, *.png", "jpg", "jpeg", "png"));
+        jfc.setVisible(true);
+        int respuesta = jfc.showOpenDialog(this);
+        if (respuesta == JFileChooser.APPROVE_OPTION) {
+            Icon icon = new ImageIcon(jfc.getSelectedFile().getPath());
+            this.lblFoto.setIcon(new ImageIcon(iconToImage(icon).getScaledInstance(
+                    lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_DEFAULT)));
+        }
+    }//GEN-LAST:event_lblFotoMouseClicked
+
     
     /**
      * Método que se encarga de actualizar en la base de datos los nuevos valores
@@ -254,6 +284,25 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         cbSexo.setModel(modelo);
     }
     
+    private Image iconToImage(Icon icon) {
+        if (icon instanceof ImageIcon) {
+            return ((ImageIcon) icon).getImage();
+        } else {
+            int w = icon.getIconWidth();
+            int h = icon.getIconHeight();
+            GraphicsEnvironment ge
+                    = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsDevice gd = ge.getDefaultScreenDevice();
+            GraphicsConfiguration gc = gd.getDefaultConfiguration();
+            BufferedImage image = gc.createCompatibleImage(w, h);
+            Graphics2D g = image.createGraphics();
+            icon.paintIcon(null, g, 0, 0);
+            g.dispose();
+            return image;
+        }
+    }
+    
+    
     @Override
     public Image getIconImage(){
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagenes/whatsapp.png"));
@@ -268,6 +317,7 @@ public class FmEditarPerfil extends javax.swing.JFrame {
     private javax.swing.JLabel lblAzul;
     private javax.swing.JLabel lblEditar;
     private javax.swing.JLabel lblFondo;
+    private javax.swing.JLabel lblFoto;
     private javax.swing.JLabel lblIcono;
     private javax.swing.JLabel lblPerfil;
     private javax.swing.JTextField txtCorreo;
