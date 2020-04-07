@@ -25,7 +25,7 @@ public class Usuario implements Serializable {
     //Atributos de la clase usuario
     private static final long serialVersionUID = 1L;    
     private Long id;
-    private String nombre, contrasenia, correo;
+    private String foto, nombre, contrasenia, correo;
     private int edad;
     private Sexo sexo;
     private List<Mensaje> mensajes;
@@ -43,14 +43,16 @@ public class Usuario implements Serializable {
      * Constructor que llama al otro constructor que crea las listas
      * de mensajes y chats, y además inicializa los atributos correo, edad
      * y sexo
+     * @param foto
      * @param nombre
      * @param contrasenia
      * @param correo
      * @param edad
      * @param sexo 
      */
-    public Usuario(String nombre, String contrasenia, String correo, int edad, Sexo sexo) {
+    public Usuario(String foto, String nombre, String contrasenia, String correo, int edad, Sexo sexo) {
         this();
+        this.foto = foto;
         this.nombre = nombre;
         this.contrasenia = contrasenia;
         this.correo = correo;
@@ -63,14 +65,16 @@ public class Usuario implements Serializable {
      * de mensajes y chats, y además inicializa los atributos id, correo, edad
      * y sexo
      * @param id
+     * @param foto
      * @param nombre
      * @param contrasenia
      * @param correo
      * @param edad
      * @param sexo 
      */
-    public Usuario(Long id, String nombre, String contrasenia, String correo, int edad, Sexo sexo) {
+    public Usuario(Long id, String foto, String nombre, String contrasenia, String correo, int edad, Sexo sexo) {
         this();
+        this.foto = foto;
         this.id = id;
         this.nombre = nombre;
         this.contrasenia = contrasenia;
@@ -97,7 +101,24 @@ public class Usuario implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
+    /**
+     * Método que retorna el atributo foto de usuario
+     * @return 
+     */
+    @Column (name = "Foto")
+    public String getFoto() {
+        return foto;
+    }
+
+    /**
+     * * Método que modifica el atributo foto de usuario
+     * @param foto 
+     */
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+        
     /**
      * Método que retorna nombre de usuario
      * @return 
