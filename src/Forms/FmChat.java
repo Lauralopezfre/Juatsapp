@@ -9,7 +9,6 @@ import com.sun.glass.events.KeyEvent;
 import entidades.Chat;
 import entidades.Mensaje;
 import entidades.Usuario;
-import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -21,7 +20,8 @@ import javax.swing.border.LineBorder;
 import repositories.ChatRepository;
 import repositories.MensajeRepository;
 import repositories.UsuarioRepository;
-
+import java.awt.Color;
+import java.awt.Font; 
 /**
  *
  * @author Estefanía Aguilar
@@ -127,9 +127,11 @@ public class FmChat extends javax.swing.JFrame {
         });
         getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, 90, 30));
 
+        txtChat.setEditable(false);
         txtChat.setBackground(new java.awt.Color(204, 204, 204));
         txtChat.setColumns(20);
         txtChat.setFont(new java.awt.Font("Monospaced", 0, 15)); // NOI18N
+        txtChat.setForeground(new java.awt.Color(0, 0, 0));
         txtChat.setRows(5);
         jScrollPane1.setViewportView(txtChat);
 
@@ -260,20 +262,20 @@ public class FmChat extends javax.swing.JFrame {
      * Método que se encarga de mostrar los datos del chat en la ventana de
      * chat.
      */
-    public void mostrarDatos() {
-        
+    public void mostrarDatos() {        
         //Mostrar en pantalla el nombre del chat
         txtChat.setEditable(false);
         txtTituloChat.setText(chat.getTitulo());
         txtTituloChat.setEnabled(false);
+        Font fuente = new Font("Calibri", 2, 19);
+        
 
         //Validacion que identifica si el chat tiene o no mensajes.
         if (!chat.getMensajes().isEmpty()) {
             //Mostrar en pantalla el mensaje
-            for (Mensaje mensaje : chat.getMensajes()) {
-                
+            for (Mensaje mensaje : chat.getMensajes()) {                
                 //Obtener la fecha en un diferente formato
-                SimpleDateFormat formater = new SimpleDateFormat("hh: mm: ss a dd-MMMM-yyyy");
+                SimpleDateFormat formater = new SimpleDateFormat("hh: mm: ss a dd-MMMM-yyyy");                
                 txtChat.append(mensaje.getUsuario().getNombre() + ": " + mensaje.getTexto() + newline 
                         + "     " + formater.format(mensaje.getFecha())
                         +newline);
