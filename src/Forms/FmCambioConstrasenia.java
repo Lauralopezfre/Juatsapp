@@ -69,6 +69,7 @@ public class FmCambioConstrasenia extends javax.swing.JFrame {
 
         btnAceptar.setBackground(new java.awt.Color(204, 204, 204));
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/si.png"))); // NOI18N
+        btnAceptar.setToolTipText("Aceptar");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAceptarActionPerformed(evt);
@@ -78,6 +79,7 @@ public class FmCambioConstrasenia extends javax.swing.JFrame {
 
         btnCancelar.setBackground(new java.awt.Color(204, 204, 204));
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/prohibido.png"))); // NOI18N
+        btnCancelar.setToolTipText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);

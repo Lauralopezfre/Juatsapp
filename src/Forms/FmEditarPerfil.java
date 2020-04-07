@@ -74,19 +74,22 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         btnAceptar = new javax.swing.JButton();
         lblPerfil = new javax.swing.JLabel();
         lblEditar = new javax.swing.JLabel();
+        lblIcono = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
+        lblCambiarFoto = new javax.swing.JLabel();
         lblAzul = new javax.swing.JLabel();
         lblFondo = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
-        setMaximumSize(new java.awt.Dimension(400, 520));
-        setMinimumSize(new java.awt.Dimension(400, 520));
-        setPreferredSize(new java.awt.Dimension(400, 520));
+        setMaximumSize(new java.awt.Dimension(400, 535));
+        setMinimumSize(new java.awt.Dimension(400, 535));
+        setPreferredSize(new java.awt.Dimension(400, 535));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/usuario.png"))); // NOI18N
+        lblFoto.setToolTipText("Cambiar foto de perfil");
         lblFoto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblFotoMouseClicked(evt);
@@ -100,7 +103,7 @@ public class FmEditarPerfil extends javax.swing.JFrame {
                 txtNombreKeyTyped(evt);
             }
         });
-        getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 170, 140, 30));
+        getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, 140, 30));
 
         txtEdad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtEdad.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -108,12 +111,12 @@ public class FmEditarPerfil extends javax.swing.JFrame {
                 txtEdadKeyTyped(evt);
             }
         });
-        getContentPane().add(txtEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 210, 60, 30));
+        getContentPane().add(txtEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 240, 60, 30));
 
-        getContentPane().add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, 140, 30));
+        getContentPane().add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 280, 140, 30));
 
         txtCorreo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 300, 140, 30));
+        getContentPane().add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 330, 140, 30));
 
         btnContrasenia.setText("Contraseña");
         btnContrasenia.addActionListener(new java.awt.event.ActionListener() {
@@ -121,16 +124,17 @@ public class FmEditarPerfil extends javax.swing.JFrame {
                 btnContraseniaActionPerformed(evt);
             }
         });
-        getContentPane().add(btnContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 350, 140, 30));
+        getContentPane().add(btnContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 380, 140, 30));
 
         btnAceptar.setBackground(new java.awt.Color(204, 204, 204));
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/si.png"))); // NOI18N
+        btnAceptar.setToolTipText("Aceptar");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAceptarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 410, -1, -1));
+        getContentPane().add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 430, -1, -1));
 
         lblPerfil.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblPerfil.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -142,14 +146,23 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         lblEditar.setText("Editar");
         getContentPane().add(lblEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 130, 40));
 
+        lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/plumaNegra.png"))); // NOI18N
+        getContentPane().add(lblIcono, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 20, 30, 40));
+
         btnCancelar.setBackground(new java.awt.Color(204, 204, 204));
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/prohibido.png"))); // NOI18N
+        btnCancelar.setToolTipText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 410, -1, -1));
+        getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 430, -1, -1));
+
+        lblCambiarFoto.setFont(new java.awt.Font("Dialog", 1, 8)); // NOI18N
+        lblCambiarFoto.setForeground(new java.awt.Color(102, 102, 102));
+        lblCambiarFoto.setText("Cambiar foto de perfil");
+        getContentPane().add(lblCambiarFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, -1, -1));
 
         lblAzul.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/azul638.jpg"))); // NOI18N
         getContentPane().add(lblAzul, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 70));
@@ -347,9 +360,11 @@ public class FmEditarPerfil extends javax.swing.JFrame {
     private javax.swing.JButton btnContrasenia;
     private javax.swing.JComboBox<String> cbSexo;
     private javax.swing.JLabel lblAzul;
+    private javax.swing.JLabel lblCambiarFoto;
     private javax.swing.JLabel lblEditar;
     private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblFoto;
+    private javax.swing.JLabel lblIcono;
     private javax.swing.JLabel lblPerfil;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtEdad;

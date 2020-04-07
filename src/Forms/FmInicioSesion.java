@@ -80,7 +80,7 @@ public class FmInicioSesion extends javax.swing.JFrame {
         getContentPane().add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 400, 120, -1));
 
         lblRegistrar.setText("¿Aún no tienes una cuenta?");
-        getContentPane().add(lblRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 360, 160, 20));
+        getContentPane().add(lblRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 370, 160, 20));
 
         lblAzul.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/azul638.jpg"))); // NOI18N
         getContentPane().add(lblAzul, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 400, 120));

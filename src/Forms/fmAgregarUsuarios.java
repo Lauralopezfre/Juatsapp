@@ -83,6 +83,7 @@ public class fmAgregarUsuarios extends javax.swing.JFrame {
         btnAgregarUsuarios.setBackground(new java.awt.Color(204, 204, 204));
         btnAgregarUsuarios.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnAgregarUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/si.png"))); // NOI18N
+        btnAgregarUsuarios.setToolTipText("Aceptar");
         btnAgregarUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarUsuariosActionPerformed(evt);
@@ -93,6 +94,7 @@ public class fmAgregarUsuarios extends javax.swing.JFrame {
         btnVolver.setBackground(new java.awt.Color(204, 204, 204));
         btnVolver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/prohibido.png"))); // NOI18N
+        btnVolver.setToolTipText("Cancelar");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVolverActionPerformed(evt);

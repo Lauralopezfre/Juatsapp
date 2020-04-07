@@ -53,7 +53,7 @@ public class FmPantallaInicio extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbChats = new javax.swing.JTable();
         btnCrearChat = new javax.swing.JButton();
-        btnCancelar = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
         lblFoto = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         lblNumChats = new javax.swing.JLabel();
@@ -107,14 +107,15 @@ public class FmPantallaInicio extends javax.swing.JFrame {
         });
         getContentPane().add(btnCrearChat, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 110, -1));
 
-        btnCancelar.setBackground(new java.awt.Color(204, 204, 204));
-        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/salida.png"))); // NOI18N
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+        btnSalir.setBackground(new java.awt.Color(204, 204, 204));
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/salida.png"))); // NOI18N
+        btnSalir.setToolTipText("Cerrar sesión");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
+                btnSalirActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, -1, 60));
+        getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, -1, 60));
 
         lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/usuario.png"))); // NOI18N
         getContentPane().add(lblFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
@@ -148,6 +149,7 @@ public class FmPantallaInicio extends javax.swing.JFrame {
 
         btnBuscar.setBackground(new java.awt.Color(255, 255, 255));
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/transparenciaC.png"))); // NOI18N
+        btnBuscar.setToolTipText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
@@ -223,11 +225,11 @@ public class FmPantallaInicio extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCrearChatActionPerformed
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         FmInicioSesion fmInicioSesion = new FmInicioSesion();
         fmInicioSesion.show();
         setVisible(false);
-    }//GEN-LAST:event_btnCancelarActionPerformed
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
         // TODO add your handling code here:
@@ -343,9 +345,9 @@ public class FmPantallaInicio extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnCrearChat;
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAzul;

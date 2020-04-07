@@ -58,6 +58,7 @@ public class FmRegistrar extends javax.swing.JFrame {
         txtContrasenia = new javax.swing.JTextField();
         cbSexo = new javax.swing.JComboBox<>();
         btnRegistrar = new javax.swing.JButton();
+        lblRegresar = new javax.swing.JButton();
         lblFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -131,6 +132,16 @@ public class FmRegistrar extends javax.swing.JFrame {
         });
         getContentPane().add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 400, 120, -1));
 
+        lblRegresar.setBackground(new java.awt.Color(255, 255, 255));
+        lblRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/regreso.png"))); // NOI18N
+        lblRegresar.setToolTipText("Regresar");
+        lblRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lblRegresarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(lblRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, -1, 40));
+
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/blancosolido.jpg"))); // NOI18N
         getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 391, 470));
 
@@ -168,6 +179,12 @@ public class FmRegistrar extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void lblRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblRegresarActionPerformed
+        FmInicioSesion fmInicioSesion = new FmInicioSesion();
+        fmInicioSesion.show();
+        setVisible(false);
+    }//GEN-LAST:event_lblRegresarActionPerformed
     /**
      * Metodo que se encarga de validar que todos los campos esten llenos al
      * momento de almacenar.
@@ -244,6 +261,7 @@ public class FmRegistrar extends javax.swing.JFrame {
     private javax.swing.JLabel lblJuatsapp;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblRegistro;
+    private javax.swing.JButton lblRegresar;
     private javax.swing.JLabel lblSexo;
     private javax.swing.JTextField txtContrasenia;
     private javax.swing.JTextField txtCorreo;
