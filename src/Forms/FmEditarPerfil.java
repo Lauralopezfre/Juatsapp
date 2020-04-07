@@ -180,40 +180,41 @@ public class FmEditarPerfil extends javax.swing.JFrame {
         /*
         Si todos los campos estan llenos, se procede a crear una nuevo usuario con los nuevos valores
         y a actualizar en la base de datos estos nuevos valores.
-        */
-        if(validarCampos() && validarCorreo()){
+         */
+        if (validarCampos() && validarCorreo()) {
             usuario.setCorreo(txtCorreo.getText());
             usuario.setEdad(Integer.parseInt(txtEdad.getText()));
             usuario.setNombre(txtNombre.getText());
-            usuario.setSexo((Sexo)cbSexo.getSelectedItem());
-            
-            
-            try {
-                File archivoOriginal = foto.getAbsoluteFile();
-                File archivoCopia = new File("src/FotoPerfil/"+ usuario.getId() +".jpg");
+            usuario.setSexo((Sexo) cbSexo.getSelectedItem());
 
-                inputStream = new FileInputStream(archivoOriginal);
-                outputStream = new FileOutputStream(archivoCopia);
-                byte[] buffer = new byte[1024];
-                int length;
-                while ((length = inputStream.read(buffer)) > 0) {
-                    outputStream.write(buffer, 0, length);
+            File archivoOriginal = foto.getAbsoluteFile();
+            File archivoCopia = new File("src/FotoPerfil/" + usuario.getId() + ".jpg");
+
+            if (!archivoOriginal.getAbsolutePath().equalsIgnoreCase(archivoCopia.getAbsolutePath())) {
+                try {
+                    inputStream = new FileInputStream(archivoOriginal);
+                    outputStream = new FileOutputStream(archivoCopia);
+                    byte[] buffer = new byte[1024];
+                    int length;
+                    while ((length = inputStream.read(buffer)) > 0) {
+                        outputStream.write(buffer, 0, length);
+                    }
+                    usuario.setFoto(archivoCopia.getPath());
+                    inputStream.close();
+                    outputStream.close();
+                    System.out.println("Archivo copiado.");
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                usuario.setFoto(archivoCopia.getPath());
-                inputStream.close();
-                outputStream.close();
-                System.out.println("Archivo copiado.");
-            } catch (IOException e) {
-                e.printStackTrace();
+                //Actualizar en la base de datos.
+                actualizarDatosBD();
             }
-            
-            //Actualizar en la base de datos.
-            actualizarDatosBD();
+
             //Se devuelve a la pantalla de inicio.
             FmPantallaInicio fmPantallaInicio = new FmPantallaInicio(this, usuario);
             fmPantallaInicio.show();
             setVisible(false);
-        }        
+        }      
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
